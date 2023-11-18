@@ -1,11 +1,35 @@
-import { Component } from '@angular/core';
-import { MatButton } from "@angular/material/button";
+import { Component, OnInit, Inject, Renderer2 } from '@angular/core';
+import { DOCUMENT } from "@angular/common";
+
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss']
 })
-export class AppComponent {
-  showFiller = false;
+export class AppComponent implements OnInit {
+  showDrawer = false;
+
+  liste: string[] = ['yosef', 'hagos']
+
+  constructor(
+    private renderer: Renderer2,
+    @Inject(DOCUMENT) private document: Document
+  ) {
+
+  }
+
+  ngOnInit() {
+    this.renderer.addClass(this.document.body, 'lightTheme')
+  }
+
+  changeTheme() {
+    if(this.document.body.classList.contains('lightTheme')) {
+      this.renderer.removeClass(this.document.body, 'lightTheme');
+      this.renderer.addClass(this.document.body, 'darkTheme')
+    } else if (this.document.body.classList.contains('darkTheme')) {
+      this.renderer.removeClass(this.document.body, 'darkTheme')
+      this.renderer.addClass(this.document.body, 'lightTheme');
+    }
+  }
 }
