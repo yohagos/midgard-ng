@@ -8,9 +8,8 @@ import { DOCUMENT } from "@angular/common";
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent implements OnInit {
-  showDrawer = false;
-
-  liste: string[] = ['yosef', 'hagos']
+  title = 'Midgard'
+  menuList: string[] = ['Sign In', 'Log In', 'Impressum']
 
   constructor(
     private renderer: Renderer2,
