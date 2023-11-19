@@ -1,0 +1,28 @@
+<div>
+  <mat-card class="loginCard">
+    <mat-card-header>
+      <mat-card-title>Login to MIDGARD</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <div [formGroup]="loginForm">
+        <p>
+          <mat-form-field appearance="fill">
+            <mat-label>Email</mat-label>
+            <input matInput placeholder="Email">
+          </mat-form-field>
+        </p>
+        <p>
+          <mat-form-field appearance="fill">
+            <mat-label>Password</mat-label>
+            <input matInput placeholder="Password">
+          </mat-form-field>
+        </p>
+      </div>
+      <div>
+        <button mat-raised-button type="submit" (click)="click()">Login</button>
+      </div>
+
+    </mat-card-content>
+  </mat-card>
+</div>
+

@@ -10,6 +10,7 @@ $light-theme:mat.define-light-theme((
   )
 ));
 @include mat.all-component-themes($light-theme);
+$light-card-shadow:mat.get-color-from-palette($light-theme);
 
 /* .lightTheme{
   $light-primary:mat.define-palette(mat.$green-palette, 700);
