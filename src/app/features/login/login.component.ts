@@ -1,27 +1,18 @@
-import { Component, OnDestroy, OnInit, ViewChild, inject } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
-import { MatFormFieldControl } from '@angular/material/form-field';
-import { LoginForm } from './login';
+import { Component, inject } from '@angular/core';
+import { FormBuilder, FormControl } from '@angular/forms';
 
 
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
-  styleUrl: './login.component.scss',
-  providers: [
-    { provide: MatFormFieldControl, useExisting: LoginComponent }
-  ]
+  styleUrl: './login.component.scss'
 })
-export class LoginComponent implements OnInit, OnDestroy {
-  @ViewChild('email')
-  emailInput!: string
-  @ViewChild('password')
-  passwordInput!: string
+export class LoginComponent  {
+  hide = true
 
   fb = inject(FormBuilder)
 
-  loginForm = this.fb.group<LoginForm>({
+  loginForm = this.fb.group({
     email: new FormControl(''),
     password: new FormControl('')
   })
@@ -30,15 +21,8 @@ export class LoginComponent implements OnInit, OnDestroy {
 
   ) {}
 
-  ngOnInit() {
 
-  }
-
-  ngOnDestroy() {
-
-  }
-
-  click() {
-    
+  submitForm() {
+    console.log(this.loginForm.value)
   }
 }

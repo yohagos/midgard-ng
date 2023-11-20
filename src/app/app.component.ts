@@ -1,5 +1,6 @@
 import { Component, OnInit, Inject, Renderer2 } from '@angular/core';
 import { DOCUMENT } from "@angular/common";
+import { Router } from '@angular/router';
 
 
 @Component({
@@ -9,11 +10,12 @@ import { DOCUMENT } from "@angular/common";
 })
 export class AppComponent implements OnInit {
   title = 'Midgard'
-  menuList: string[] = ['Sign In', 'Log In', 'Impressum']
+  menuList: string[] = ['Home', 'Sign In', 'Log In', 'Profile']
 
   constructor(
     private renderer: Renderer2,
-    @Inject(DOCUMENT) private document: Document
+    @Inject(DOCUMENT) private document: Document,
+    private router: Router
   ) {
 
   }
@@ -29,6 +31,26 @@ export class AppComponent implements OnInit {
     } else if (this.document.body.classList.contains('darkTheme')) {
       this.renderer.removeClass(this.document.body, 'darkTheme')
       this.renderer.addClass(this.document.body, 'lightTheme');
+    }
+  }
+
+  changeTo(page: string) {
+    switch (page) {
+      case 'Home':
+        this.router.navigate(['/'])
+        break
+      case 'Log In':
+        this.router.navigate(['/login'])
+        break
+      case 'Sign In':
+        this.router.navigate(['/signup'])
+        break
+      case 'Profile':
+        this.router.navigate(['/profile'])
+        break
+      default:
+        console.log("No such page")
+        break
     }
   }
 }

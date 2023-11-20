@@ -4,10 +4,10 @@
   </button>
   <mat-menu #menu="matMenu">
     <div *ngFor="let item of menuList">
-      <button mat-button> {{item}} </button>
+      <button mat-button (click)="changeTo(item)"> {{item}} </button>
     </div>
   </mat-menu>
-  <span style="margin:auto;display:block;">{{title}}</span> 
+  <span style="margin:auto;display:block;">{{title}}</span>
 
   <button mat-icon-button (click)="changeTheme()">
     <mat-icon>color_lens</mat-icon>

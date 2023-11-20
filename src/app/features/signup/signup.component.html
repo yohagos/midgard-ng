@@ -1,0 +1,40 @@
+<div class="card">
+  <mat-card >
+    <mat-card-header>
+      <mat-card-title class="matCardTitle">Sign Up</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <div class="forms" [formGroup]="signupForm">
+        <mat-form-field appearance="fill">
+          <mat-label>Firstname</mat-label>
+          <input matInput placeholder="Firstname" formControlName="firstname">
+        </mat-form-field>
+        <mat-form-field appearance="fill">
+          <mat-label>Lastname</mat-label>
+          <input matInput placeholder="Lastname" formControlName="lastname">
+        </mat-form-field>
+        <mat-form-field appearance="fill">
+          <mat-label>Email</mat-label>
+          <input matInput placeholder="Email" formControlName="email">
+        </mat-form-field>
+        <mat-form-field appearance="fill">
+          <mat-label>Password</mat-label>
+          <input matInput [type]="hide ? 'password' : 'text'"  placeholder="Password" formControlName="password">
+          <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide">
+            <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+          </button>
+        </mat-form-field>
+        <mat-form-field appearance="fill">
+          <mat-label>Repeat Password</mat-label>
+          <input matInput [type]="hide ? 'password' : 'text'"  placeholder="Password" formControlName="repeatPassword">
+          <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide">
+            <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+          </button>
+        </mat-form-field>
+      </div>
+      <div class="formButtons">
+        <button mat-raised-button class="formSubmit" type="submit" color="primary" (click)="submitForm()" >Login</button>
+      </div>
+    </mat-card-content>
+  </mat-card>
+</div>

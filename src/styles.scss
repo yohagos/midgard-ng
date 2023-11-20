@@ -2,17 +2,7 @@
 
 @include mat.core();
 
-$light-theme:mat.define-light-theme((
-  color: (
-    primary:mat.define-palette(mat.$green-palette, 700),
-    accent:mat.define-palette(mat.$teal-palette, 200),
-    warm:mat.define-palette(mat.$indigo-palette, 300)
-  )
-));
-@include mat.all-component-themes($light-theme);
-$light-card-shadow:mat.get-color-from-palette($light-theme);
-
-/* .lightTheme{
+.lightTheme{
   $light-primary:mat.define-palette(mat.$green-palette, 700);
   $light-accent:mat.define-palette(mat.$teal-palette, 200);
   $light-warn:mat.define-palette(mat.$indigo-palette, 300);
@@ -27,12 +17,10 @@ $light-card-shadow:mat.get-color-from-palette($light-theme);
   @include mat.all-component-themes($light-theme);
   $cardbackgorund-primary:mat.get-color-from-palette($light-primary, 800);
   $card-primary-text:mat.get-color-from-palette($light-primary, 800);
-
   @import 'custom_styles';
-} */
+}
 
 .darkTheme{
-
   $dark-primary:mat.define-palette(mat.$grey-palette, 800);
   $dark-accent:mat.define-palette(mat.$amber-palette, 500);
   $dark-warn:mat.define-palette(mat.$amber-palette, 900);
@@ -45,11 +33,11 @@ $light-card-shadow:mat.get-color-from-palette($light-theme);
   ));
 
   @include mat.all-component-colors($dark-theme);
-  $dark-background-primary:mat.get-color-from-palette($dark-primary);
   $cardbackgorund-primary:mat.get-color-from-palette($dark-primary);
   $card-primary-text:mat.get-color-from-palette($dark-primary);
   @import 'custom_styles';
 }
+
 
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
