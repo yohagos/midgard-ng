@@ -20,12 +20,7 @@
       <div class="formButtons">
         <button mat-raised-button
                 class="formSubmit" type="submit"
-                color="primary" (click)="login()" >Login</button>
-      </div>
-      <div class="formButtons">
-        <button mat-raised-button
-                class="formSubmit" type="submit"
-                color="primary" (click)="clickMe()" >Test</button>
+                color="primary" (click)="login()" [disabled]="!loginForm.valid">Login</button>
       </div>
     </mat-card-content>
   </mat-card>

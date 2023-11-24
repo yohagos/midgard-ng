@@ -1,5 +1,8 @@
 import { Component } from '@angular/core';
-import { FormBuilder, FormControl } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { Router } from '@angular/router';
+import { UserService } from 'src/app/core/services/user.service';
 
 @Component({
   selector: 'app-signup',
@@ -7,21 +10,43 @@ import { FormBuilder, FormControl } from '@angular/forms';
   styleUrl: './signup.component.scss'
 })
 export class SignupComponent {
-  hide = true
+  hide_password = true
+  hide_repeat = true
 
-  signupForm = this.formbuilder.group({
-    firstname: new FormControl(''),
-    lastname: new FormControl(''),
-    email: new FormControl(''),
-    password: new FormControl(''),
-    repeatPassword: new FormControl('')
-  })
+  signupForm: FormGroup;
 
   constructor(
-    public formbuilder: FormBuilder
-  ) {}
+    public formbuilder: FormBuilder,
+    private readonly userService: UserService,
+    private readonly router: Router,
+    private _snackBar: MatSnackBar
+  ) {
+    this.signupForm = this.formbuilder.group({
+      firstname: ['', [Validators.required]],
+      lastname: ['', [Validators.required]],
+      email: ['', [Validators.required, Validators.email]],
+      password: ['', [Validators.required]],
+      repeatPassword: ['', [Validators.required]]
+    })
+  }
 
   submitForm() {
-    console.table(this.signupForm.value)
+    if (this.signupForm.get('password')?.value !== this.signupForm.get('repeatPassword')?.value) {
+      this._snackBar.open("Passwords do not match", 'Try again')
+      return
+    }
+    let credentials = {
+      firstname: this.signupForm.get('firstname')?.value,
+      lastname: this.signupForm.get('lastname')?.value,
+      email: this.signupForm.get('email')?.value,
+      password: this.signupForm.get('password')?.value,
+    }
+    console.log(credentials)
+    this.userService.register(credentials).subscribe(
+      (res) => {
+        console.log(res)
+        this.router.navigate(['/login'])
+      }
+    )
   }
 }

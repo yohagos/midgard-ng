@@ -10,7 +10,7 @@ import { Router } from '@angular/router';
 })
 export class AppComponent implements OnInit {
   title = 'Midgard'
-  menuList: string[] = ['Home', 'Sign In', 'Log In', 'Profile']
+  menuList: string[] = ['Home', 'Sign Up', 'Log In', 'Profile']
 
   constructor(
     private renderer: Renderer2,
@@ -42,7 +42,7 @@ export class AppComponent implements OnInit {
       case 'Log In':
         this.router.navigate(['/login'])
         break
-      case 'Sign In':
+      case 'Sign Up':
         this.router.navigate(['/signup'])
         break
       case 'Profile':

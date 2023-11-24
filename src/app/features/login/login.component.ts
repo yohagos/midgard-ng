@@ -1,5 +1,5 @@
 import { Component, inject } from '@angular/core';
-import { FormBuilder, FormControl, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 
 import { takeUntil, Subject } from "rxjs";
@@ -21,28 +21,24 @@ export class LoginComponent  {
 
   fb = inject(FormBuilder)
 
-  loginForm = this.fb.group({
-    email: new FormControl('', {
-      validators: [Validators.required],
-      nonNullable: true
-    }),
-    password: new FormControl('', {
-      validators: [Validators.required],
-      nonNullable: true
-    })
-  })
+  loginForm: FormGroup;
 
   constructor(
     private readonly userService: UserService,
     private readonly router: Router,
     private readonly activatedRoute: ActivatedRoute
-  ) {}
+  ) {
+    this.loginForm  = this.fb.group({
+      email: ['', [Validators.required, Validators.email]],
+      password: ['', [Validators.required]]
+    })
+  }
 
   login() {
     let observable = this.userService.login(
       this.loginForm.value as {email: string, password: string}
     )
-    observable.pipe(takeUntil(this.destroy$)).subscribe({
+    observable.subscribe({
       next: () => {
         void this.router.navigate(["/profile"])
       },

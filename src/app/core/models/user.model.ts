@@ -5,5 +5,6 @@ export interface User {
   email: string
   password: string
   createdAt: any
-  token: string
+  accessToken: string
+  refreshToken: string
 }

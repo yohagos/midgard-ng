@@ -39,7 +39,7 @@ export class UserService {
     password: string;
   }) {
     return this.http
-        .post<User>("auth/register", {user: credentials})
+        .post<User>("auth/register", credentials)
         .pipe(tap((user) => this.setAuth(user)))
   }
 
@@ -47,13 +47,15 @@ export class UserService {
     email: string;
     password: string;
   }) {
+    console.log(credentials.email + ' ' + credentials.password);
+
     return this.http
-      .post<User>("auth/authenticate", {user: credentials})
+      .post<User>("auth/authenticate", {user: credentials}, {withCredentials: true})
       .pipe(tap((user) => this.setAuth(user)))
   }
 
   test() {
-    return this.http.get("auth/")
+    return this.http.get("user")
   }
 
   logout() {
@@ -83,7 +85,9 @@ export class UserService {
 
 
   setAuth(user: User) {
-    this.jwtService.saveToken(user.token)
+    console.log(user);
+
+    this.jwtService.saveToken(user.accessToken)
     this.currentUserSubject.next(user)
   }
 
