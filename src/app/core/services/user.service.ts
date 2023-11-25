@@ -43,19 +43,10 @@ export class UserService {
         .pipe(tap((user) => this.setAuth(user)))
   }
 
-  login(credentials: {
-    email: string;
-    password: string;
-  }) {
-    console.log(credentials.email + ' ' + credentials.password);
-
+  login(credentials: any) {
     return this.http
-      .post<User>("auth/authenticate", {user: credentials}, {withCredentials: true})
+      .post<User>("auth/authenticate", credentials, {withCredentials: true})
       .pipe(tap((user) => this.setAuth(user)))
-  }
-
-  test() {
-    return this.http.get("user")
   }
 
   logout() {
@@ -85,7 +76,7 @@ export class UserService {
 
 
   setAuth(user: User) {
-    console.log(user);
+    console.log(user.accessToken);
 
     this.jwtService.saveToken(user.accessToken)
     this.currentUserSubject.next(user)

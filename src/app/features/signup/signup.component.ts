@@ -41,7 +41,6 @@ export class SignupComponent {
       email: this.signupForm.get('email')?.value,
       password: this.signupForm.get('password')?.value,
     }
-    console.log(credentials)
     this.userService.register(credentials).subscribe(
       (res) => {
         console.log(res)

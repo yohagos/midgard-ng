@@ -35,10 +35,11 @@ export class LoginComponent  {
   }
 
   login() {
-    let observable = this.userService.login(
-      this.loginForm.value as {email: string, password: string}
-    )
-    observable.subscribe({
+    let credentials = {
+      email: this.loginForm.get('email')?.value,
+      password: this.loginForm.get('password')?.value
+    }
+    this.userService.login(credentials).subscribe({
       next: () => {
         void this.router.navigate(["/profile"])
       },
@@ -46,13 +47,8 @@ export class LoginComponent  {
         this.errors = err;
         this.isSubmitting = false;
       }
-    })
-  }
-
-  clickMe() {
-    let observable = this.userService.test()
-    observable.subscribe(
-      (res) => console.log(res)
+    }
     )
   }
+
 }

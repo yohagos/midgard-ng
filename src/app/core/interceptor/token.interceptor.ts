@@ -14,18 +14,16 @@ export class TokenInterceptor implements HttpInterceptor {
     req: HttpRequest<any>,
     next: HttpHandler
   ): Observable<HttpEvent<any>> {
-
+    console.log('Token interceptor')
     const token = this.jwtService.getToken()
-    console.log(token);
-
-    const headers = new HttpHeaders({
-      'Content-Type': 'application/json',
-      'Authorization': token ? `Bearer ${token}` : ''
-    });
 
     const request = req.clone({
-      headers: headers
+      setHeaders: {
+        ...(token ? {Authorization: `Bearer ${token}`} : '')
+      }
     })
+
+    console.table(request)
     return next.handle(request)
   }
 }
