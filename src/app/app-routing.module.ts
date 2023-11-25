@@ -4,15 +4,12 @@ import { HomeComponent } from './features/home/home.component';
 import { ProfileComponent } from './features/profile/profile.component';
 import { LoginComponent } from './features/login/login.component';
 import { SignupComponent } from './features/signup/signup.component';
+import { AuthGuardService } from './core/services/auth-guard.service';
 
 const routes: Routes = [
   {
     path: '',
     component: HomeComponent
-  },
-  {
-    path: 'profile',
-    component: ProfileComponent
   },
   {
     path: 'login',
@@ -21,6 +18,11 @@ const routes: Routes = [
   {
     path: 'signup',
     component: SignupComponent
+  },
+  {
+    path: 'profile',
+    component: ProfileComponent,
+    canActivate: [AuthGuardService]
   }
 ];
 

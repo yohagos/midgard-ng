@@ -22,11 +22,11 @@ export class SignupComponent {
     private _snackBar: MatSnackBar
   ) {
     this.signupForm = this.formbuilder.group({
-      firstname: ['', [Validators.required]],
-      lastname: ['', [Validators.required]],
-      email: ['', [Validators.required, Validators.email]],
-      password: ['', [Validators.required]],
-      repeatPassword: ['', [Validators.required]]
+      firstname: ['david', [Validators.required]],
+      lastname: ['david', [Validators.required]],
+      email: ['david@david.david', [Validators.required, Validators.email]],
+      password: ['david', [Validators.required]],
+      repeatPassword: ['david', [Validators.required]]
     })
   }
 
