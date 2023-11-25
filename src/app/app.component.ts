@@ -45,9 +45,6 @@ export class AppComponent implements OnInit {
       case 'Sign Up':
         this.router.navigate(['/signup'])
         break
-      case 'Profile':
-        this.router.navigate(['/profile'])
-        break
       default:
         console.log("No such page")
         break
