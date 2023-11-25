@@ -1,26 +1,30 @@
-import { NgModule } from '@angular/core';
+import { NgModule, APP_INITIALIZER } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { FormsModule, ReactiveFormsModule } from "@angular/forms";
+import { HTTP_INTERCEPTORS, HttpClientModule } from "@angular/common/http";
+import { EMPTY } from "rxjs";
 
 import { AppRoutingModule } from './app-routing.module';
+import { MaterialsModule } from "./materials.module";
 import { AppComponent } from './app.component';
 import { HomeComponent } from "./features/home/home.component";
 import { LoginComponent } from "./features/login/login.component";
 import { ProfileComponent } from "./features/profile/profile.component";
 import { SignupComponent } from "./features/signup/signup.component";
 
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { FormsModule, ReactiveFormsModule } from "@angular/forms";
+import { JwtService } from './core/services/jwt.service';
+import { UserService } from './core/services/user.service';
+import { ApiInterceptor } from './core/interceptor/api.interceptor';
+import { ErrorInterceptor } from './core/interceptor/error.interceptor';
+import { TokenInterceptor } from './core/interceptor/token.interceptor';
 
-import { MatButtonModule } from '@angular/material/button';
-import { MatButtonToggleModule } from "@angular/material/button-toggle";
-import { MatCardModule } from '@angular/material/card';
-import { MatIconModule } from '@angular/material/icon';
-import { MatInputModule } from "@angular/material/input";
-import { MatFormFieldModule } from "@angular/material/form-field";
-import { MatMenuModule } from "@angular/material/menu";
-import { MatSelectModule } from "@angular/material/select";
-import { MatSidenavModule } from '@angular/material/sidenav';
-import { MatToolbarModule } from '@angular/material/toolbar';
+export function initAuth(
+  jwtService: JwtService,
+  userService: UserService
+) {
+  return () => (jwtService.getToken() ? userService.getCurrentUser() : EMPTY)
+}
 
 @NgModule({
   declarations: [
@@ -31,24 +35,25 @@ import { MatToolbarModule } from '@angular/material/toolbar';
     SignupComponent
   ],
   imports: [
-    BrowserModule,
     AppRoutingModule,
+    BrowserModule,
     BrowserAnimationsModule,
     FormsModule,
+    HttpClientModule,
     ReactiveFormsModule,
-
-    MatButtonModule,
-    MatButtonToggleModule,
-    MatCardModule,
-    MatFormFieldModule,
-    MatIconModule,
-    MatInputModule,
-    MatMenuModule,
-    MatSelectModule,
-    MatSidenavModule,
-    MatToolbarModule
+    MaterialsModule
   ],
-  providers: [],
+  providers: [
+    {
+      provide: APP_INITIALIZER,
+      useFactory: initAuth,
+      deps: [JwtService, UserService],
+      multi: true
+    },
+    { provide: HTTP_INTERCEPTORS, useClass: ApiInterceptor, multi: true},
+    { provide: HTTP_INTERCEPTORS, useClass: TokenInterceptor, multi: true},
+    { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true},
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

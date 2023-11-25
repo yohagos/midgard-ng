@@ -19,21 +19,21 @@
         </mat-form-field>
         <mat-form-field appearance="fill">
           <mat-label>Password</mat-label>
-          <input matInput [type]="hide ? 'password' : 'text'"  placeholder="Password" formControlName="password">
-          <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide">
-            <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+          <input matInput [type]="hide_password ? 'password' : 'text'"  placeholder="Password" formControlName="password">
+          <button mat-icon-button matSuffix (click)="hide_password = !hide_password" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide_password">
+            <mat-icon>{{hide_password ? 'visibility_off' : 'visibility'}}</mat-icon>
           </button>
         </mat-form-field>
         <mat-form-field appearance="fill">
           <mat-label>Repeat Password</mat-label>
-          <input matInput [type]="hide ? 'password' : 'text'"  placeholder="Password" formControlName="repeatPassword">
-          <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide">
-            <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+          <input matInput [type]="hide_repeat ? 'password' : 'text'"  placeholder="Password" formControlName="repeatPassword">
+          <button mat-icon-button matSuffix (click)="hide_repeat = !hide_repeat" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide_repeat">
+            <mat-icon>{{hide_repeat ? 'visibility_off' : 'visibility'}}</mat-icon>
           </button>
         </mat-form-field>
       </div>
       <div class="formButtons">
-        <button mat-raised-button class="formSubmit" type="submit" color="primary" (click)="submitForm()" >Login</button>
+        <button mat-raised-button class="formSubmit" type="submit" color="primary" [disabled]="!signupForm.valid" (click)="submitForm()" >Sign Up</button>
       </div>
     </mat-card-content>
   </mat-card>
