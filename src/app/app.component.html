@@ -1,18 +1,1 @@
-<mat-toolbar color="primary" class="theme">
-  <button mat-icon-button [matMenuTriggerFor]="menu">
-    <mat-icon>menu</mat-icon>
-  </button>
-  <mat-menu #menu="matMenu">
-    <div *ngFor="let item of menuList">
-      <button mat-button (click)="changeTo(item)"> {{item}} </button>
-    </div>
-  </mat-menu>
-  <span style="margin:auto;display:block;">{{title}}</span>
-
-  <button mat-icon-button (click)="changeTheme()">
-    <mat-icon>color_lens</mat-icon>
-  </button>
-</mat-toolbar>
-
 <router-outlet></router-outlet>
-
