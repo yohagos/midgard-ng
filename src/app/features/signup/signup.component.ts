@@ -43,7 +43,6 @@ export class SignupComponent {
     }
     this.userService.register(credentials).subscribe(
       (res) => {
-        console.log(res)
         this.router.navigate(['/login'])
       }
     )

@@ -14,7 +14,6 @@ export class TokenInterceptor implements HttpInterceptor {
     req: HttpRequest<any>,
     next: HttpHandler
   ): Observable<HttpEvent<any>> {
-    console.log('Token interceptor')
     const token = this.jwtService.getToken()
 
     const request = req.clone({
@@ -22,8 +21,6 @@ export class TokenInterceptor implements HttpInterceptor {
         ...(token ? {Authorization: `Bearer ${token}`} : '')
       }
     })
-
-    console.table(request)
     return next.handle(request)
   }
 }

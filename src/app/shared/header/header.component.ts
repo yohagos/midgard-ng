@@ -16,9 +16,7 @@ export class HeaderComponent {
     private renderer: Renderer2,
     @Inject(DOCUMENT) private document: Document,
     private router: Router
-  ) {
-
-  }
+  ) {  }
 
   ngOnInit() {
     this.renderer.addClass(this.document.body, 'lightTheme')

@@ -13,7 +13,16 @@ export class JwtService {
     window.localStorage["jwtToken"] = token
   }
 
+  getEmail() {
+    return window.localStorage["email"]
+  }
+
+  saveEmail(email: string) {
+    window.localStorage["email"] = email
+  }
+
   destroyToken() {
     window.localStorage.removeItem("jwtToken")
+    window.localStorage.removeItem("email")
   }
 }
