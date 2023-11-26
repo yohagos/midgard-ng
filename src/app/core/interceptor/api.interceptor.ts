@@ -11,8 +11,6 @@ export class ApiInterceptor implements HttpInterceptor {
     req: HttpRequest<any>,
     next: HttpHandler
   ): Observable<HttpEvent<any>> {
-    console.log('Api Interceptor');
-
     const headers = new HttpHeaders({
       'Content-Type': 'application/json'
     });

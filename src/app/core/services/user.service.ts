@@ -65,6 +65,11 @@ export class UserService {
       )
   }
 
+  getUser() {
+    let email = this.jwtService.getEmail()
+    return this.http.get<User>(`user/email`, email)
+  }
+
   update(user: Partial<User>) {
     return this.http.put<User>("user", {user})
       .pipe(
@@ -76,14 +81,14 @@ export class UserService {
 
 
   setAuth(user: User) {
-    console.log(user.accessToken);
-
     this.jwtService.saveToken(user.accessToken)
+    this.jwtService.saveEmail(user.email)
     this.currentUserSubject.next(user)
   }
 
   purgeAuth() {
     this.jwtService.destroyToken()
+
     this.currentUserSubject.next(null)
   }
 }
