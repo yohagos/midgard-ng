@@ -7,11 +7,14 @@ import { EMPTY } from "rxjs";
 
 import { AppRoutingModule } from './app-routing.module';
 import { MaterialsModule } from "./materials.module";
+
 import { AppComponent } from './app.component';
+import { HeaderComponent } from "./shared/header/header.component";
 import { HomeComponent } from "./features/home/home.component";
 import { LoginComponent } from "./features/login/login.component";
 import { ProfileComponent } from "./features/profile/profile.component";
 import { SignupComponent } from "./features/signup/signup.component";
+import { NavigationComponent } from "./shared/navigation/navigation.component";
 
 import { JwtService } from './core/services/jwt.service';
 import { UserService } from './core/services/user.service';
@@ -29,8 +32,10 @@ export function initAuth(
 @NgModule({
   declarations: [
     AppComponent,
+    HeaderComponent,
     HomeComponent,
     LoginComponent,
+    NavigationComponent,
     ProfileComponent,
     SignupComponent
   ],
