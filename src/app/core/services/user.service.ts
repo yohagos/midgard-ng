@@ -9,7 +9,7 @@ import {
 } from "rxjs";
 
 import { User } from "../models/user.model";
-import { HttpClient } from "@angular/common/http";
+import { HttpClient, HttpParams } from "@angular/common/http";
 import { Router } from "@angular/router";
 import { JwtService } from "./jwt.service";
 
@@ -67,7 +67,7 @@ export class UserService {
 
   getUser() {
     let email = this.jwtService.getEmail()
-    return this.http.get<User>(`user/email`, email)
+    return this.http.get<User>(`user/${email}`)
   }
 
   update(user: Partial<User>) {
