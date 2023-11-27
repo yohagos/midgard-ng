@@ -14,6 +14,7 @@ export class NavigationComponent implements OnInit {
     {name: 'Sign Up', path: '/signup', loggedIn: false},
     {name: 'Log In', path: '/login', loggedIn: false},
     {name: 'Profile', path: '/profile', loggedIn: true},
+    {name: 'Tickets', path: '/ticket', loggedIn: true},
     {name: 'Logout', path: '/logout', loggedIn: true},
   ]
 
