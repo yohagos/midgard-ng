@@ -7,14 +7,16 @@ import { EMPTY } from "rxjs";
 
 import { AppRoutingModule } from './app-routing.module';
 import { MaterialsModule } from "./materials.module";
+import { TicketModule } from "./features/ticket/ticket.module";
 
 import { AppComponent } from './app.component';
 import { HeaderComponent } from "./shared/header/header.component";
 import { HomeComponent } from "./features/home/home.component";
 import { LoginComponent } from "./features/login/login.component";
+import { NavigationComponent } from "./shared/navigation/navigation.component";
 import { ProfileComponent } from "./features/profile/profile.component";
 import { SignupComponent } from "./features/signup/signup.component";
-import { NavigationComponent } from "./shared/navigation/navigation.component";
+import { TicketComponent } from "./features/ticket/ticket.component";
 
 import { JwtService } from './core/services/jwt.service';
 import { UserService } from './core/services/user.service';
@@ -37,7 +39,8 @@ export function initAuth(
     LoginComponent,
     NavigationComponent,
     ProfileComponent,
-    SignupComponent
+    SignupComponent,
+    TicketComponent
   ],
   imports: [
     AppRoutingModule,
@@ -46,7 +49,8 @@ export function initAuth(
     FormsModule,
     HttpClientModule,
     ReactiveFormsModule,
-    MaterialsModule
+    MaterialsModule,
+    TicketModule
   ],
   providers: [
     {

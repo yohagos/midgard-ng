@@ -31,21 +31,4 @@ export class HeaderComponent {
       this.renderer.addClass(this.document.body, 'lightTheme');
     }
   }
-
-  changeTo(page: string) {
-    switch (page) {
-      case 'Home':
-        this.router.navigate(['/'])
-        break
-      case 'Log In':
-        this.router.navigate(['/login'])
-        break
-      case 'Sign Up':
-        this.router.navigate(['/signup'])
-        break
-      default:
-        console.log("No such page")
-        break
-    }
-  }
 }
