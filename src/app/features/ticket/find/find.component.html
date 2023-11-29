@@ -1,1 +1,16 @@
-<p>find works!</p>
+<mat-accordion multi>
+    <mat-expansion-panel *ngFor="let item of ticketsList" [ngStyle]="changeColor(item)">
+      <mat-expansion-panel-header>
+        <mat-panel-title [ngStyle]="changeTitleByPriority(item)">
+          {{item?.title}}
+        </mat-panel-title>
+        <mat-panel-description>
+          {{item?.categories}}
+        </mat-panel-description>
+      </mat-expansion-panel-header>
+      <section>
+        Owner: {{item?.owner?.firstname}} {{item?.owner?.lastname}}
+        Status: {{item?.status}}
+      </section>
+    </mat-expansion-panel>
+</mat-accordion>
