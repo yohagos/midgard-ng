@@ -16,14 +16,9 @@ export interface FindTable {
 export class FindComponent implements OnInit {
   ticketsList!: Tickets[]
 
-  
-
   constructor(
-    private readonly ticketService: TicketService,
-
-  ) {
-
-  }
+    private readonly ticketService: TicketService
+  ) {  }
 
   ngOnInit() {
     this.ticketService.getAllTickets().subscribe(

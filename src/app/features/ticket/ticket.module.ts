@@ -6,8 +6,6 @@ import { CreateComponent } from "./create/create.component";
 import { EditComponent } from "./edit/edit.component";
 import { FindComponent } from "./find/find.component";
 
-
-
 import { MaterialsModule } from "../../materials.module";
 
 
