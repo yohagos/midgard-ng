@@ -1,43 +1,35 @@
-<div>
-  <mat-card>
-    <mat-card-header>
-      <mat-card-title>Create new Ticket</mat-card-title>
-    </mat-card-header>
-    <mat-card-content>
-      <div class="form" [formGroup]="createForm">
-        <mat-form-field appearance="outline">
-          <mat-label>Title</mat-label>
-          <input matInput placeholder="Title" formControlName="title">
-        </mat-form-field>
+<div class="form" [formGroup]="createForm">
+    <mat-form-field appearance="outline">
+        <mat-label>Title</mat-label>
+        <input matInput placeholder="Title" formControlName="title">
+    </mat-form-field>
+    <mat-form-field appearance="outline">
+      <mat-label>Content</mat-label>
+      <textarea matInput rows="5" cols="100" placeholder="Content" formControlName="content"></textarea>
+    </mat-form-field>
+    <mat-form-field appearance="outline">
+      <mat-label>Categories</mat-label>
+      <mat-select placeholder="Categories" formControlName="categories"  multiple>
+        @for (item of categoryList; track $index) {
+          <mat-option [value]="item">{{item}}</mat-option>
+        }
+      </mat-select>
+    </mat-form-field>
+    <mat-form-field appearance="outline">
+      <mat-label>Priority</mat-label>
+      <mat-select placeholder="Priority" formControlName="priority">
+        <mat-option *ngFor="let item of priorityList" value="{{item}}">{{item}}</mat-option>
+      </mat-select>
+    </mat-form-field>
 
-        <!-- <mat-form-field appearance="outline">
-          <mat-label>DIALOG</mat-label>
-          <button mat-raised-button (click)="openDialog()" formControlName="includedUsers">Select User</button>
-        </mat-form-field> -->
-        <mat-form-field appearance="outline">
-          <mat-label>Content</mat-label>
-          <textarea matInput rows="5" cols="100" placeholder="Content" formControlName="content"></textarea>
-        </mat-form-field>
-        <mat-form-field appearance="outline">
-          <mat-label>Categories</mat-label>
-          <mat-select placeholder="Categories" formControlName="categories" multiple>
-            <mat-option *ngFor="let item of categories" value="{{item}}">{{item}}</mat-option>
-          </mat-select>
-        </mat-form-field>
-        <mat-form-field appearance="outline">
-          <mat-label>Priority</mat-label>
-          <mat-select placeholder="Priority" formControlName="priority">
-            <mat-option *ngFor="let item of categories" value="{{item}}">{{item}}</mat-option>
-          </mat-select>
-        </mat-form-field>
+    <mat-label>Add Users:</mat-label>
+    <button mat-icon-button (click)="openDialog()">
+      <mat-icon>add</mat-icon>
+    </button>
 
-      </div>
-      <div class="formButtons">
-        <button mat-raised-button type="submit" color="primary" [disabled]="!createForm.valid" (click)="createTicket()">Save</button>
-      </div>
-      <div class="formButtons">
-        <button mat-raised-button type="submit" color="accent">Cancel</button>
-      </div>
-    </mat-card-content>
-  </mat-card>
 </div>
+<div class="formButtons">
+  <button mat-raised-button type="submit" color="primary" [disabled]="!createForm.valid" (click)="createTicket()">Save</button>
+  <button mat-raised-button type="submit" color="accent" (click)="clearFields()">Cancel</button>
+</div>
+
