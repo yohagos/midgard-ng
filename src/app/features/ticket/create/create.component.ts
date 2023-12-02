@@ -6,6 +6,8 @@ import { UserService } from 'src/app/core/services/user.service';
 import { DialogComponent } from './dialog/dialog.component';
 import { TicketCategories } from '../shared/categories.enum';
 import { TicketPriorities } from '../shared/priorities.enum';
+import { TicketService } from 'src/app/core/services/ticket.service';
+import { TicketCreateRequest } from 'src/app/core/models/ticket.model';
 
 
 @Component({
@@ -16,6 +18,7 @@ import { TicketPriorities } from '../shared/priorities.enum';
 export class CreateComponent implements OnInit {
   userList: User[] = []
   currentUser!: string
+  owner!: User
   createForm: FormGroup
 
   categoryList!: string[]
@@ -24,6 +27,7 @@ export class CreateComponent implements OnInit {
   constructor(
     public fb: FormBuilder,
     private readonly userService: UserService,
+    private readonly ticketService: TicketService,
     private matDialog: MatDialog
   ) {
     this.categoryList = Object.keys(TicketCategories).filter((item) => {
@@ -38,18 +42,17 @@ export class CreateComponent implements OnInit {
       // Strings or single Informations
       title: new FormControl('Clean Code Architecture', Validators.required),
       content: new FormControl('Clean code provides more readability...', Validators.required),
-      //ownerEmail: new FormControl(this.currentUser,Validators.required),
       priority: new FormControl('LOW', Validators.required),
-
-      // Arrays
-      categories: new FormControl('', Validators.required),
-      //includedUsers: this.fb.array<User>([])
+      categories: new FormControl('', Validators.required)
     })
   }
 
   ngOnInit() {
     this.userService.getUser().subscribe(
-      res => this.currentUser = res.firstname + ' ' + res.lastname
+      (res: User) => {
+        this.currentUser = res.firstname + ' ' + res.lastname
+        this.owner = res
+      }
     )
     this.userService.getUserList().subscribe(
       res => {
@@ -60,7 +63,6 @@ export class CreateComponent implements OnInit {
 
   getCategoriesLength(): number {
     let list: string[] = this.createForm.get('categories')?.value
-    console.log(list)
     return list.length
   }
 
@@ -78,9 +80,10 @@ export class CreateComponent implements OnInit {
           includedUsers.push(control)
         }
       })
-      this.createForm.setControl("includedUsers", includedUsers);
-      console.log(this.createForm.value);
-
+      this.createForm.addControl("includedUsers", includedUsers);
+      this.createForm.setControl(
+        'ownerEmail', new FormControl(this.owner.email, Validators.required)
+      )
     })
   }
 
@@ -93,7 +96,10 @@ export class CreateComponent implements OnInit {
   }
 
   createTicket() {
-    this.clearFields()
+    this.ticketService.addNewTicket(this.createForm.value as TicketCreateRequest).subscribe(res => {
+      console.log(res)
+    })
+    //this.clearFields()
   }
 
   clearFields() {

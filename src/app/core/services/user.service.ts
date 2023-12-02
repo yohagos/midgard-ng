@@ -54,6 +54,7 @@ export class UserService {
   }
 
   getCurrentUser() {
+    let email = this.jwtService.getEmail()
     return this.http.get(`user/{email}`)
       .pipe(
         tap({
