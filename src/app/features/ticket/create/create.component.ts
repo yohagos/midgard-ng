@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
-import { User } from 'src/app/core/models/user.model';
+import { User, UserBasic } from 'src/app/core/models/user.model';
 import { UserService } from 'src/app/core/services/user.service';
 import { DialogComponent } from './dialog/dialog.component';
 import { TicketCategories } from '../shared/categories.enum';
@@ -16,9 +16,9 @@ import { TicketCreateRequest } from 'src/app/core/models/ticket.model';
   styleUrl: './create.component.scss'
 })
 export class CreateComponent implements OnInit {
-  userList: User[] = []
+  userList: UserBasic[] = []
   currentUser!: string
-  owner!: User
+  owner!: UserBasic
   createForm: FormGroup
 
   categoryList!: string[]
@@ -51,12 +51,12 @@ export class CreateComponent implements OnInit {
     this.userService.getUser().subscribe(
       (res: User) => {
         this.currentUser = res.firstname + ' ' + res.lastname
-        this.owner = res
+        this.owner = res as unknown as UserBasic
       }
     )
     this.userService.getUserList().subscribe(
       res => {
-        this.userList = res
+        this.userList = res as unknown as UserBasic[]
       }
     )
   }
@@ -74,7 +74,7 @@ export class CreateComponent implements OnInit {
     dialogRef.afterClosed().subscribe(result => {
       selectedUsers = result
       let includedUsers = this.fb.array([])
-      selectedUsers.forEach((user: User) => {
+      selectedUsers.forEach((user) => {
         if (user !== null) {
           let control = this.convertToFormControl(user)
           includedUsers.push(control)
@@ -87,10 +87,17 @@ export class CreateComponent implements OnInit {
     })
   }
 
-  convertToFormControl(user: User): FormControl<User> {
+  convertToFormControl(user: any): FormControl<UserBasic> {
     if (user !== null && user !== undefined) {
-      let control = new FormControl<User>(user);
-      return control as FormControl<User>
+      let test: UserBasic = {
+        id: user.id,
+        firstname: user.firstname,
+        lastname: user.lastname,
+        email: user.email,
+        role: user.role
+      }
+      let control = new FormControl<UserBasic>(test);
+      return control as FormControl<UserBasic>
     }
     return new FormControl()
   }
@@ -99,7 +106,7 @@ export class CreateComponent implements OnInit {
     this.ticketService.addNewTicket(this.createForm.value as TicketCreateRequest).subscribe(res => {
       console.log(res)
     })
-    //this.clearFields()
+    this.clearFields()
   }
 
   clearFields() {

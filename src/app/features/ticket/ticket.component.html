@@ -1,6 +1,6 @@
-<mat-tab-group>
+<mat-tab-group (selectedTabChange)="onTabChanged($event)">
   <mat-tab label="Find Tickets" routerLink="/find">
-    <app-find></app-find>
+    <app-find [ticketsList]="ticketsList"></app-find>
   </mat-tab>
   <mat-tab label="Create Tickets" routerLink="/create">
     <app-create></app-create>
