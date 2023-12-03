@@ -40,7 +40,6 @@ export class UserService {
   }) {
     return this.http
         .post<User>("auth/register", credentials)
-        .pipe(tap((user) => this.setAuth(user)))
   }
 
   login(credentials: any) {
@@ -55,6 +54,7 @@ export class UserService {
   }
 
   getCurrentUser() {
+    let email = this.jwtService.getEmail()
     return this.http.get(`user/{email}`)
       .pipe(
         tap({
@@ -77,6 +77,10 @@ export class UserService {
           this.currentUserSubject.next(user)
         })
       )
+  }
+
+  getUserList() {
+    return this.http.get<User[]>('user')
   }
 
 

@@ -2,7 +2,7 @@
 <mat-drawer-container class="navigation-container">
   <mat-drawer mode="side" style="width: 20%;" class="navigation-items" opened>
     <div *ngFor="let item of navigations">
-      <button mat-button *ngIf="isLoggedIn == item.loggedIn" routerLink="{{item.path}}"  style="width: 100%;">
+      <button mat-button *ngIf="isLoggedIn == item.loggedIn" routerLink="{{item.path}}" style="width: 100%;">
         {{item.name}}
       </button>
     </div>

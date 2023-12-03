@@ -8,3 +8,11 @@ export interface User {
   accessToken: string
   refreshToken: string
 }
+
+export interface UserBasic {
+  id: number
+  firstname: string
+  lastname: string
+  email: string
+  role: string
+}

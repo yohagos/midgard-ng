@@ -1,0 +1,8 @@
+<mat-selection-list [(ngModel)]="selectedUsers">
+  @for (item of data; track $index) {
+    <mat-list-option [value]="item">{{item.firstname}} {{item.lastname}}</mat-list-option>
+  }
+</mat-selection-list>
+
+<button mat-raised-button color="primary" (click)="submit()">Select</button>
+<button mat-raised-button mat-dialog-close color="grey">Cancel</button>

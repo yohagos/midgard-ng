@@ -1,4 +1,7 @@
 import { Component } from '@angular/core';
+import { MatTabChangeEvent } from '@angular/material/tabs';
+import { Tickets } from 'src/app/core/models/ticket.model';
+import { TicketService } from 'src/app/core/services/ticket.service';
 
 @Component({
   selector: 'app-ticket',
@@ -6,26 +9,25 @@ import { Component } from '@angular/core';
   styleUrl: './ticket.component.scss'
 })
 export class TicketComponent {
-  links = [
-    {
-      name: 'Find Tickets',
-      link: '/ticket/find'
-    },
-    {
-      name: 'Create Tickets',
-      link: '/ticket/find'
-    },
-    {
-      name: 'Edit Tickets',
-      link: '/ticket/find'
-    },
-  ]
+  ticketsList!: Tickets[]
 
-  oldlinks = ['/find', '/create', 'edit']
-  activeLink = this.links[0]?.link
-
-
-  click(test: string) {
-    console.log(test)
+  constructor(
+    private readonly ticketService: TicketService
+  ) {
+    this.loadTickets()
   }
+
+
+  loadTickets() {
+    this.ticketService.getAllTickets().subscribe(
+      result => {
+        this.ticketsList = result
+      }
+    )
+  }
+
+  onTabChanged(event: MatTabChangeEvent) {
+    this.loadTickets()
+  }
+
 }

@@ -6,7 +6,7 @@ import { CreateComponent } from "./create/create.component";
 import { EditComponent } from "./edit/edit.component";
 import { FindComponent } from "./find/find.component";
 
-
+import { DialogComponent } from "./create/dialog/dialog.component";
 
 import { MaterialsModule } from "../../materials.module";
 
@@ -15,12 +15,16 @@ import { MaterialsModule } from "../../materials.module";
   declarations: [
     CreateComponent,
     EditComponent,
-    FindComponent
+    FindComponent,
+
+    DialogComponent
   ],
   exports: [
     CreateComponent,
     EditComponent,
     FindComponent,
+
+    DialogComponent
   ],
   imports: [
     BrowserModule,

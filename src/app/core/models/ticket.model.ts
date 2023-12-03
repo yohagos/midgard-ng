@@ -14,3 +14,13 @@ export interface Tickets {
   categories: string[]
   priority: string
 }
+
+export interface TicketCreateRequest{
+  title: string,
+  ownerEmail: string,
+  includedUsers: User[],
+  content: string,
+  status: string,
+  categories: string[],
+  priority: string
+}

@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { NavigationEnd, Router } from '@angular/router';
+import { ActivatedRoute, NavigationEnd, NavigationStart, Router } from '@angular/router';
 import { JwtService } from 'src/app/core/services/jwt.service';
 
 @Component({
@@ -29,8 +29,11 @@ export class NavigationComponent implements OnInit {
         if (event instanceof NavigationEnd) {
           this.isLoggedIn = this.jwtService.getToken() ? true : false
         }
+        if (event instanceof NavigationStart && event.url == '/logout') {
+          this.jwtService.destroyToken()
+          window.location.reload();
+        }
       }
     )
   }
-
 }
