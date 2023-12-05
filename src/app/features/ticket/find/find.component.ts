@@ -1,6 +1,9 @@
 import { Component, Input } from '@angular/core';
+import { Router } from '@angular/router';
 
 import { Tickets } from 'src/app/core/models/ticket.model';
+import { ShareService } from '../shared/share.service';
+import { TicketService } from 'src/app/core/services/ticket.service';
 
 
 @Component({
@@ -9,9 +12,23 @@ import { Tickets } from 'src/app/core/models/ticket.model';
   styleUrl: './find.component.scss'
 })
 export class FindComponent  {
-  @Input() ticketsList!: Tickets[]
+  ticketsList: Tickets[]
 
-  constructor() {  }
+  loading = true
+
+  constructor(
+    private router: Router,
+    private shareService: ShareService,
+    private ticketService: TicketService
+  ) {
+    this.ticketsList = this.shareService.getTicketList()
+    this.ticketService.getAllTickets().subscribe(
+      result => {
+        this.ticketsList = result
+        this.loading = false
+      }
+    )
+   }
 
   changeColor(ticket: Tickets) {
     let panel = {}
@@ -56,6 +73,12 @@ export class FindComponent  {
         break;
     }
     return title
+  }
+
+  editTicket(ticket: Tickets) {
+    console.log(ticket)
+
+    this.router.navigate(['ticket', {outlets: {ticketOutlet: ['edit']}}], { queryParams: ticket})
   }
 
 }

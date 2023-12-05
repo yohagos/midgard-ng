@@ -1,7 +1,6 @@
 import { Component } from '@angular/core';
-import { MatTabChangeEvent } from '@angular/material/tabs';
-import { Tickets } from 'src/app/core/models/ticket.model';
 import { TicketService } from 'src/app/core/services/ticket.service';
+import { ShareService } from './shared/share.service';
 
 @Component({
   selector: 'app-ticket',
@@ -9,25 +8,14 @@ import { TicketService } from 'src/app/core/services/ticket.service';
   styleUrl: './ticket.component.scss'
 })
 export class TicketComponent {
-  ticketsList!: Tickets[]
-
   constructor(
-    private readonly ticketService: TicketService
+    private readonly ticketService: TicketService,
+    private shareService: ShareService
   ) {
-    this.loadTickets()
-  }
-
-
-  loadTickets() {
     this.ticketService.getAllTickets().subscribe(
       result => {
-        this.ticketsList = result
+        this.shareService.setTicketList(result)
       }
     )
   }
-
-  onTabChanged(event: MatTabChangeEvent) {
-    this.loadTickets()
-  }
-
 }

@@ -1,11 +1,9 @@
-<mat-tab-group (selectedTabChange)="onTabChanged($event)">
-  <mat-tab label="Find Tickets" routerLink="/find">
-    <app-find [ticketsList]="ticketsList"></app-find>
-  </mat-tab>
-  <mat-tab label="Create Tickets" routerLink="/create">
-    <app-create></app-create>
-  </mat-tab>
-  <mat-tab label="Edit Tickets" routerLink="/edit">
-    <app-edit></app-edit>
-  </mat-tab>
-</mat-tab-group>
+ <nav mat-tab-nav-bar [tabPanel]="tabPanel">
+  <a mat-tab-link routerLink="find" routerLinkActive="router-link-active"> Find Ticket</a>
+  <a mat-tab-link routerLink="create" routerLinkActive="router-link-active"> Create Ticket</a>
+  <a mat-tab-link routerLink="edit" routerLinkActive="router-link-active"> Edit Ticket</a>
+ </nav>
+ <mat-tab-nav-panel #tabPanel>
+  <router-outlet></router-outlet>
+ </mat-tab-nav-panel>
+
