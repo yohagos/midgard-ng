@@ -1,3 +1,43 @@
-<p>edit works!</p>
-
-
+<div class="editForm form" [formGroup]="editForm">
+  <mat-card>
+    <div class="edit">
+      <button mat-icon-button class="icons" (click)="toggleAllFields()">
+        <mat-icon>edit</mat-icon>
+      </button>
+    </div>
+    <mat-card-content>
+      <mat-form-field appearance="outline">
+        <mat-label>Title</mat-label>
+        <input matInput formControlName="title">
+      </mat-form-field>
+      <mat-form-field appearance="outline">
+        <mat-label>Content</mat-label>
+        <textarea matInput rows="5" cols="100" formControlName="content"></textarea>
+      </mat-form-field>
+      <mat-form-field appearance="outline">
+        <mat-label>Categories</mat-label>
+        <input *ngIf="editForm.disabled" matInput formControlName="categories">
+        <mat-select *ngIf="editForm.enabled" formControlName="categories" multiple>
+          @for (category of categoryList; track $index) {
+            <mat-option [value]="category"> {{category}}</mat-option>
+          }
+        </mat-select>
+      </mat-form-field>
+      <mat-form-field appearance="outline">
+        <mat-label>Priority</mat-label>
+        <input *ngIf="editForm.disabled" matInput formControlName="priority">
+        <mat-select *ngIf="editForm.enabled" formControlName="priority" value="">
+          <mat-option *ngFor="let priority of priorityList" value="{{priority}}">{{priority}}</mat-option>
+        </mat-select>
+      </mat-form-field>
+      <mat-form-field appearance="outline">
+        <mat-label>Owner</mat-label>
+        <input matInput formControlName="owner">
+      </mat-form-field>
+      <div>
+        <button mat-raised-button color="primary" (click)="updateTicket()" [disabled]="editForm.disabled && editForm.dirty">Save</button>
+        <button mat-raised-button color="grey" (click)="cancel()" [disabled]="editForm.disabled">Cancel</button>
+      </div>
+    </mat-card-content>
+  </mat-card>
+</div>
