@@ -1,7 +1,7 @@
  <nav mat-tab-nav-bar [tabPanel]="tabPanel">
   <a mat-tab-link routerLink="find" routerLinkActive="router-link-active"> Find Ticket</a>
   <a mat-tab-link routerLink="create" routerLinkActive="router-link-active"> Create Ticket</a>
-  <a mat-tab-link routerLink="edit" routerLinkActive="router-link-active"> Edit Ticket</a>
+  <a mat-tab-link routerLink="edit/:id" routerLinkActive="router-link-active" disabled> Edit Ticket</a>
  </nav>
  <mat-tab-nav-panel #tabPanel>
   <router-outlet></router-outlet>

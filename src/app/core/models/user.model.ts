@@ -14,5 +14,5 @@ export interface UserBasic {
   firstname: string
   lastname: string
   email: string
-  role: string
+  role?: string
 }

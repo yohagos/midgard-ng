@@ -1,4 +1,5 @@
-<div class="editForm form" [formGroup]="editForm">
+<mat-spinner *ngIf="!receivedData"></mat-spinner>
+<div *ngIf="receivedData" class="editForm form" [formGroup]="editForm">
   <mat-card>
     <div class="edit">
       <button mat-icon-button class="icons" (click)="toggleAllFields()">
@@ -6,15 +7,15 @@
       </button>
     </div>
     <mat-card-content>
-      <mat-form-field appearance="outline">
+      <mat-form-field appearance="fill">
         <mat-label>Title</mat-label>
         <input matInput formControlName="title">
       </mat-form-field>
-      <mat-form-field appearance="outline">
+      <mat-form-field appearance="fill">
         <mat-label>Content</mat-label>
         <textarea matInput rows="5" cols="100" formControlName="content"></textarea>
       </mat-form-field>
-      <mat-form-field appearance="outline">
+      <mat-form-field appearance="fill">
         <mat-label>Categories</mat-label>
         <input *ngIf="editForm.disabled" matInput formControlName="categories">
         <mat-select *ngIf="editForm.enabled" formControlName="categories" multiple>
@@ -23,19 +24,32 @@
           }
         </mat-select>
       </mat-form-field>
-      <mat-form-field appearance="outline">
+      <mat-form-field appearance="fill">
         <mat-label>Priority</mat-label>
         <input *ngIf="editForm.disabled" matInput formControlName="priority">
-        <mat-select *ngIf="editForm.enabled" formControlName="priority" value="">
+        <mat-select *ngIf="editForm.enabled" formControlName="priority" value="{{receivedData.priority}}">
           <mat-option *ngFor="let priority of priorityList" value="{{priority}}">{{priority}}</mat-option>
         </mat-select>
       </mat-form-field>
-      <mat-form-field appearance="outline">
+      <mat-form-field appearance="fill">
+        <mat-label>Status</mat-label>
+        <input *ngIf="editForm.disabled" matInput formControlName="status">
+        <mat-select *ngIf="editForm.enabled" formControlName="status" value="{{receivedData.status}}">
+          <mat-option *ngFor="let status of statusList" value="{{status}}">{{status}}</mat-option>
+        </mat-select>
+      </mat-form-field>
+      <mat-form-field appearance="fill">
         <mat-label>Owner</mat-label>
         <input matInput formControlName="owner">
       </mat-form-field>
-      <div>
-        <button mat-raised-button color="primary" (click)="updateTicket()" [disabled]="editForm.disabled && editForm.dirty">Save</button>
+      <!-- <mat-form-field>
+        <mat-label>Included Users</mat-label>
+        <mat-chip-listbox *ngIf="userList" formControlName="includedUsers">
+          <mat-chip *ngFor="let user of receivedData.includedUsers">{{user.firstname}} {{user.lastname}}</mat-chip>
+        </mat-chip-listbox>
+      </mat-form-field> -->
+      <div class="formButtons">
+        <button mat-raised-button color="primary" (click)="updateTicket()" [disabled]="editForm.disabled || !editForm.dirty">Save</button>
         <button mat-raised-button color="grey" (click)="cancel()" [disabled]="editForm.disabled">Cancel</button>
       </div>
     </mat-card-content>

@@ -73,9 +73,7 @@ export class FindComponent  {
   }
 
   editTicket(ticket: Tickets) {
-    console.log(ticket)
-
-    this.router.navigate(['ticket/edit'], { queryParams: ticket})
+    this.router.navigate(['ticket/edit', ticket.id])
   }
 
 }
