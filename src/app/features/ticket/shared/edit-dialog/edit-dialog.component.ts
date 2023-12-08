@@ -16,12 +16,10 @@ export class EditDialogComponent {
   ) {}
 
   submit() {
-    //console.log(this.selectedUser as User)
     this.editDialogRef.close(this.selectedUser)
   }
 
   cancel() {
     this.editDialogRef.close()
   }
-
 }

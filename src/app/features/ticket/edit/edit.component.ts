@@ -9,6 +9,9 @@ import { MatDialog } from '@angular/material/dialog';
 import { DialogComponent } from '../shared/dialog/dialog.component';
 import { UserService } from 'src/app/core/services/user.service';
 import { EditDialogComponent } from '../shared/edit-dialog/edit-dialog.component';
+import { LoadingService } from 'src/app/core/services/loading.service';
+import { Observable } from 'rxjs';
+import { UtilsService } from 'src/app/core/services/util.service';
 
 
 @Component({
@@ -23,6 +26,8 @@ export class EditComponent {
   editForm!: FormGroup
   editMode = false
 
+  loading$: Observable<boolean>
+
   categoryList!: string[]
   priorityList!: string[]
   statusList!: string[]
@@ -30,6 +35,8 @@ export class EditComponent {
   constructor(
     private route: ActivatedRoute,
     public formBuilder: FormBuilder,
+    private loadingService: LoadingService,
+    private utilsService: UtilsService,
     private readonly userService: UserService,
     private readonly ticketService: TicketService,
     public matDialog: MatDialog
@@ -39,6 +46,8 @@ export class EditComponent {
       this.ticketService.getTicketById(ticketID).subscribe(
         result => {
           this.receivedData = result as Tickets
+          this.receivedData.owner = {...this.receivedData.owner}
+          console.log(this.receivedData)
           this.includedUsers = this.receivedData.includedUsers
           this.fillForm()
         }
@@ -49,6 +58,7 @@ export class EditComponent {
         }
       )
     }
+    this.loading$ = this.loadingService.loading$()
   }
 
   ngOnInit() {
@@ -121,14 +131,17 @@ export class EditComponent {
     const dialogRef = this.matDialog.open(EditDialogComponent, {
       data: this.userList
     })
-    dialogRef.afterClosed().subscribe((result: User) => {
-      console.log(this.receivedData.owner);
-
-      this.receivedData.owner = result as User
-
-      this.editForm.get('owner')?.setValue(this.receivedData.owner.firstname + ' ' + this.receivedData.owner.lastname)
-      console.log(this.editForm.value)
-    })
+    dialogRef.beforeClosed().subscribe(
+      (result:User) => {
+        setTimeout('', 500)
+        if (result && typeof result === 'object') {
+          this.receivedData.owner = result
+          this.receivedData = {...this.receivedData}
+          console.log(this.receivedData)
+          this.editForm.get('owner')?.setValue(result.firstname + ' ' + result.lastname)
+        }
+      }
+    )
   }
 
   updateIncludedUsers(user: User) {

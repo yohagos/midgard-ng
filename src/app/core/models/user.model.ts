@@ -7,6 +7,7 @@ export interface User {
   createdAt?: any
   accessToken: string
   refreshToken: string
+  role?: string
 }
 
 export interface UserBasic {

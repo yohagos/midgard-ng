@@ -61,6 +61,10 @@
         </mat-chip-listbox>
       </div>
 
+      <div *ngIf="">
+        <mat-spinner>Loading...</mat-spinner>
+      </div>
+
       <div class="formButtons">
         <button mat-raised-button color="primary" (click)="updateTicket()" [disabled]="editForm.disabled || !editForm.dirty">Save</button>
         <button mat-raised-button color="grey" (click)="cancel()" [disabled]="editForm.disabled">Cancel</button>
