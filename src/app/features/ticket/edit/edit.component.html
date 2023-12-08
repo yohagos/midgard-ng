@@ -41,13 +41,26 @@
       <mat-form-field appearance="fill">
         <mat-label>Owner</mat-label>
         <input matInput formControlName="owner">
+        <button mat-icon-button *ngIf="editMode" (click)="changeOwnerDialog()">
+          <mat-icon matSuffix>mode_edit</mat-icon>
+        </button>
       </mat-form-field>
-      <!-- <mat-form-field>
-        <mat-label>Included Users</mat-label>
-        <mat-chip-listbox *ngIf="userList" formControlName="includedUsers">
-          <mat-chip *ngFor="let user of receivedData.includedUsers">{{user.firstname}} {{user.lastname}}</mat-chip>
+      <div>
+        <mat-label>Included Users
+          <button *ngIf="editMode" mat-icon-button (click)="openDialog()">
+            <mat-icon>add</mat-icon>
+          </button>
+        </mat-label>
+        <mat-chip-listbox>
+          <mat-chip (removed)="remove(user)" *ngFor="let user of receivedData.includedUsers">
+            {{user.firstname}} {{user.lastname}}
+            <button matChipRemove [attr.aria-label]="'remove ' + user">
+              <mat-icon>cancel</mat-icon>
+            </button>
+          </mat-chip>
         </mat-chip-listbox>
-      </mat-form-field> -->
+      </div>
+
       <div class="formButtons">
         <button mat-raised-button color="primary" (click)="updateTicket()" [disabled]="editForm.disabled || !editForm.dirty">Save</button>
         <button mat-raised-button color="grey" (click)="cancel()" [disabled]="editForm.disabled">Cancel</button>

@@ -1,12 +1,14 @@
 import { Component } from '@angular/core';
-import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { TicketUpdateRequest, Tickets } from 'src/app/core/models/ticket.model';
 import { TicketCategoriesEnum, TicketPrioritiesEnum, TicketStatusEnum } from '../shared/ticket.enum';
 import { User, UserBasic } from 'src/app/core/models/user.model';
 import { TicketService } from 'src/app/core/services/ticket.service';
 import { MatDialog } from '@angular/material/dialog';
-import { DialogComponent } from '../create/dialog/dialog.component';
+import { DialogComponent } from '../shared/dialog/dialog.component';
+import { UserService } from 'src/app/core/services/user.service';
+import { EditDialogComponent } from '../shared/edit-dialog/edit-dialog.component';
 
 
 @Component({
@@ -16,8 +18,10 @@ import { DialogComponent } from '../create/dialog/dialog.component';
 })
 export class EditComponent {
   receivedData!: Tickets
+  includedUsers!: UserBasic[]
   userList!: UserBasic[]
   editForm!: FormGroup
+  editMode = false
 
   categoryList!: string[]
   priorityList!: string[]
@@ -26,6 +30,7 @@ export class EditComponent {
   constructor(
     private route: ActivatedRoute,
     public formBuilder: FormBuilder,
+    private readonly userService: UserService,
     private readonly ticketService: TicketService,
     public matDialog: MatDialog
   ) {
@@ -34,8 +39,13 @@ export class EditComponent {
       this.ticketService.getTicketById(ticketID).subscribe(
         result => {
           this.receivedData = result as Tickets
-          this.userList = this.receivedData.includedUsers
+          this.includedUsers = this.receivedData.includedUsers
           this.fillForm()
+        }
+      )
+      this.userService.getUserList().subscribe(
+        res => {
+          this.userList = res as UserBasic[]
         }
       )
     }
@@ -64,36 +74,68 @@ export class EditComponent {
       status: new FormControl({value: this.receivedData.status, disabled: true}),
       owner: new FormControl({value:
         this.receivedData.owner.firstname + ' ' + this.receivedData.owner.lastname , disabled: true}),
-
     })
-    //includedUsers: new FormControl({value: this.receivedData.includedUsers, disabled: true})
     this.editForm.markAsUntouched()
   }
 
   toggleAllFields() {
     if (this.editForm.disabled){
       this.editForm.enable()
+      this.editMode = true
     } else {
       this.editForm.disable()
+      this.editMode = false
+    }
+  }
+
+  remove(user: User) {
+    const index = this.receivedData.includedUsers.indexOf(user)
+    if (index >= 0) {
+      this.receivedData.includedUsers.splice(index, 1)
+
     }
   }
 
   openDialog() {
-    let selectedUsers: User[] = []
     const dialogRef = this.matDialog.open(DialogComponent, {
+      data: { allUsers: this.userList, includedUsers: this.includedUsers }
+    })
+    dialogRef.afterClosed().subscribe((result: User[]) => {
+      let includedUsers = this.formBuilder.array([])
+      if (
+        result.length > 0
+      ) {
+        result.forEach((user) => {
+          if (user !== null) {
+            this.updateIncludedUsers(user)
+            let control = this.convertToFormControl(user)
+            includedUsers.push(control)
+          }
+        })
+        this.editForm.addControl("includedUsers", includedUsers);
+      }
+    })
+  }
+
+  changeOwnerDialog() {
+    const dialogRef = this.matDialog.open(EditDialogComponent, {
       data: this.userList
     })
-    dialogRef.afterClosed().subscribe(result => {
-      selectedUsers = result
-      let includedUsers = this.formBuilder.array([])
-      selectedUsers.forEach((user) => {
-        if (user !== null) {
-          let control = this.convertToFormControl(user)
-          includedUsers.push(control)
-        }
-      })
-      this.editForm.addControl("includedUsers", includedUsers);
+    dialogRef.afterClosed().subscribe((result: User) => {
+      console.log(this.receivedData.owner);
+
+      this.receivedData.owner = result as User
+
+      this.editForm.get('owner')?.setValue(this.receivedData.owner.firstname + ' ' + this.receivedData.owner.lastname)
+      console.log(this.editForm.value)
     })
+  }
+
+  updateIncludedUsers(user: User) {
+    let check = this.receivedData.includedUsers.find(item => item.email === user.email)
+    if (!check) {
+      this.receivedData.includedUsers.push(user)
+    }
   }
 
   convertToFormControl(user: any): FormControl<UserBasic> {
@@ -112,26 +154,16 @@ export class EditComponent {
   }
 
   updateTicket() {
-    let owner:UserBasic = {
-      id: this.receivedData.owner.id,
-      firstname: this.receivedData.owner.firstname,
-      lastname: this.receivedData.owner.lastname,
-      email: this.receivedData.owner.email
+    const ticket: TicketUpdateRequest = {
+      id: this.receivedData.id,
+      content: this.editForm.controls['content'].value,
+      priority: this.editForm.controls['priority'].value,
+      categories: this.editForm.controls['categories'].value,
+      title: this.editForm.controls['title'].value,
+      status: this.editForm.controls['status'].value,
+      ownerUser: this.receivedData.owner,
+      includedUsers: []
     }
-
-    console.log(owner)
-      const ticket: TicketUpdateRequest = {
-        id: this.receivedData.id,
-        content: this.editForm.controls['content'].value,
-        priority: this.editForm.controls['priority'].value,
-        categories: this.editForm.controls['categories'].value,
-        title: this.editForm.controls['title'].value,
-        status: this.editForm.controls['status'].value,
-        ownerUser: owner,
-        includedUsers: []
-      }
-
-      console.log(ticket);
 
       /* this.ticketService.updateTicket(ticket).subscribe(
         result => {
@@ -143,6 +175,7 @@ export class EditComponent {
   cancel() {
     if (this.editForm.enabled) {
       this.editForm.disable()
+      this.editMode = false
     }
   }
 }

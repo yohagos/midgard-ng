@@ -4,7 +4,7 @@ export interface User {
   lastname: string
   email: string
   password: string
-  createdAt: any
+  createdAt?: any
   accessToken: string
   refreshToken: string
 }
