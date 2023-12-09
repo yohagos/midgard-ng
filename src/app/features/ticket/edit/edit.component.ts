@@ -12,6 +12,7 @@ import { EditDialogComponent } from '../shared/edit-dialog/edit-dialog.component
 import { LoadingService } from 'src/app/core/services/loading.service';
 import { Observable } from 'rxjs';
 import { UtilsService } from 'src/app/core/services/util.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 
 @Component({
@@ -36,10 +37,10 @@ export class EditComponent {
     private route: ActivatedRoute,
     public formBuilder: FormBuilder,
     private loadingService: LoadingService,
-    private utilsService: UtilsService,
     private readonly userService: UserService,
     private readonly ticketService: TicketService,
-    public matDialog: MatDialog
+    public matDialog: MatDialog,
+    public snackBar: MatSnackBar
   ) {
     let ticketID = this.route.snapshot.paramMap.get('id')
     if (ticketID !== null) {
@@ -47,7 +48,6 @@ export class EditComponent {
         result => {
           this.receivedData = result as Tickets
           this.receivedData.owner = {...this.receivedData.owner}
-          console.log(this.receivedData)
           this.includedUsers = this.receivedData.includedUsers
           this.fillForm()
         }
@@ -132,13 +132,20 @@ export class EditComponent {
       data: this.userList
     })
     dialogRef.beforeClosed().subscribe(
-      (result:User) => {
-        setTimeout('', 500)
-        if (result && typeof result === 'object') {
-          this.receivedData.owner = result
-          this.receivedData = {...this.receivedData}
-          console.log(this.receivedData)
-          this.editForm.get('owner')?.setValue(result.firstname + ' ' + result.lastname)
+      (result) => {
+        let owner = this.userList.find(item => item.id === result)
+        if (owner?.id != undefined || owner?.id !== null) {
+          this.receivedData.owner.id = owner?.id || 0
+          this.receivedData.owner.email = owner?.email || ''
+          this.receivedData.owner.lastname = owner?.lastname || ''
+          this.receivedData.owner.firstname = owner?.firstname || ''
+          this.receivedData.owner.role = owner?.role || ''
+          this.receivedData.owner.accessToken = ''
+          this.receivedData.owner.refreshToken = ''
+          this.editForm.get('owner')?.setValue(owner?.firstname + ' ' + owner?.lastname)
+          this.editForm.markAsDirty()
+        } else {
+          console.log('User cannot be selected');
         }
       }
     )
@@ -167,6 +174,8 @@ export class EditComponent {
   }
 
   updateTicket() {
+    let includedUsers = this.modifyIncludedUsers()
+    let owner = this.modifyOwner()
     const ticket: TicketUpdateRequest = {
       id: this.receivedData.id,
       content: this.editForm.controls['content'].value,
@@ -174,15 +183,43 @@ export class EditComponent {
       categories: this.editForm.controls['categories'].value,
       title: this.editForm.controls['title'].value,
       status: this.editForm.controls['status'].value,
-      ownerUser: this.receivedData.owner,
-      includedUsers: []
+      ownerUser: owner,
+      includedUsers: includedUsers
     }
+    this.ticketService.updateTicket(ticket).subscribe(
+      result => {
+        this.snackBar.open('Ticket successfully updated', 'done')
+        this.cancel()
+      }
+    )
+  }
 
-      /* this.ticketService.updateTicket(ticket).subscribe(
-        result => {
-          console.log(result)
-        }
-      ) */
+  modifyOwner() {
+    let owner: UserBasic = {
+      id: this.receivedData.owner.id,
+      firstname: this.receivedData.owner.firstname,
+      lastname: this.receivedData.owner.lastname,
+      email: this.receivedData.owner.email
+    }
+    return owner
+  }
+
+  modifyIncludedUsers() {
+    const users: UserBasic[] = []
+    if (this.receivedData.includedUsers === this.includedUsers) {
+      return []
+    }
+    this.receivedData.includedUsers.forEach(item => {
+      let user: UserBasic = {
+        id: item.id,
+        firstname: item.firstname,
+        lastname: item.lastname,
+        email: item.email,
+        role: item.role
+      }
+      users.push(user)
+    })
+    return users
   }
 
   cancel() {

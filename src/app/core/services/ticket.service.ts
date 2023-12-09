@@ -21,7 +21,6 @@ export class TicketService {
   }
 
   addNewTicket(ticket: TicketCreateRequest) {
-    console.log(ticket);
     return this.http.post<TicketCreateRequest>('ticket/add', ticket);
   }
 

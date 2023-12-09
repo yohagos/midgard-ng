@@ -1,7 +1,10 @@
-<mat-selection-list [(ngModel)]="selectedUser" multiple="false">
-  @for (item of data; track $index) {
-    <mat-list-option [value]="item">{{ item.firstname }} {{ item.lastname }} </mat-list-option>
-  }
-</mat-selection-list>
-<button mat-raised-button color="primary" (click)="submit()">Select</button>
-<button mat-raised-button mat-dialog-close color="grey">Cancel</button>
+<div [formGroup]="editDialogForm">
+  <mat-selection-list formControlName="user" onchange="ngOnChanges($event)" multiple="false">
+    @for (item of data; track $index) {
+      <mat-list-option [value]="item.id">{{ item.firstname }} {{ item.lastname }} </mat-list-option>
+    }
+  </mat-selection-list>
+  <button mat-raised-button color="primary" (click)="submit()">Select</button>
+  <button mat-raised-button mat-dialog-close color="grey">Cancel</button>
+</div>
+

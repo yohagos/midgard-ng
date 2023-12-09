@@ -1,6 +1,7 @@
-import { Component, Inject } from '@angular/core';
-import { User } from 'src/app/core/models/user.model';
+import { Component, Inject, OnChanges } from '@angular/core';
+import { User, UserBasic } from 'src/app/core/models/user.model';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 
 @Component({
   selector: 'app-edit-dialog',
@@ -8,15 +9,22 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
   styleUrl: './edit-dialog.component.scss'
 })
 export class EditDialogComponent {
-  selectedUser!: User
+  editDialogForm: FormGroup
 
   constructor(
     public editDialogRef: MatDialogRef<EditDialogComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: User[]
-  ) {}
+    @Inject(MAT_DIALOG_DATA) public data: User[],
+    public formBuilder: FormBuilder
+  ) {
+    this.editDialogForm = this.formBuilder.group({
+      user: new FormControl()
+    })
+  }
 
   submit() {
-    this.editDialogRef.close(this.selectedUser)
+    let user = this.editDialogForm.get('user')?.value
+    let [id] = user
+    this.editDialogRef.close(id)
   }
 
   cancel() {
