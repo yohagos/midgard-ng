@@ -8,9 +8,15 @@
           {{item?.categories}}
         </mat-panel-description>
       </mat-expansion-panel-header>
-      <section>
-        Owner: {{item?.owner?.firstname}} {{item?.owner?.lastname}}
-        Status: {{item?.status}}
-      </section>
+      <mat-list role="list">
+        <mat-list-item role="listitem">Owner: {{item?.owner?.firstname}} {{item?.owner?.lastname}}</mat-list-item>
+        <mat-list-item role="listitem">Status: {{item?.status}}</mat-list-item>
+        <mat-list-item *ngIf="item?.priority" role="listitem">Priority: {{item?.priority}}</mat-list-item>
+        <mat-list-item>
+          <button mat-icon-button class="icons" (click)="editTicket(item)">
+            <mat-icon>edit</mat-icon>
+          </button>
+        </mat-list-item>
+      </mat-list>
     </mat-expansion-panel>
 </mat-accordion>

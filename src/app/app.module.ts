@@ -39,8 +39,7 @@ export function initAuth(
     LoginComponent,
     NavigationComponent,
     ProfileComponent,
-    SignupComponent,
-    TicketComponent
+    SignupComponent
   ],
   imports: [
     AppRoutingModule,
@@ -49,7 +48,7 @@ export function initAuth(
     FormsModule,
     HttpClientModule,
     ReactiveFormsModule,
-    
+
     MaterialsModule,
     TicketModule
   ],

@@ -7,12 +7,11 @@ import { NavigationComponent } from './shared/navigation/navigation.component';
 import { SignupComponent } from './features/signup/signup.component';
 import { TicketComponent } from "./features/ticket/ticket.component";
 
-
 import { AuthGuardService } from './core/services/auth-guard.service';
 import { FindComponent } from './features/ticket/find/find.component';
 import { CreateComponent } from './features/ticket/create/create.component';
 import { EditComponent } from './features/ticket/edit/edit.component';
-import { TicketModule } from './features/ticket/ticket.module';
+
 
 const routes: Routes = [
   {
@@ -42,22 +41,28 @@ const routes: Routes = [
         canActivate: [AuthGuardService],
         children:[
             {
+              path:'',
+              redirectTo:"find",
+              pathMatch:"full"
+            },
+            {
               path: 'find',
-              component: FindComponent,
-              outlet: 'find'
+              component: FindComponent
             },
             {
               path: 'create',
               component: CreateComponent,
-              outlet: 'create'
             },
             {
-              path: 'edit',
+              path: 'edit/:id',
               component: EditComponent,
-              outlet: 'edit'
             }
-          ]
-
+        ]
+      },
+      {
+        path: '',
+        redirectTo: '/home',
+        pathMatch: 'full'
       },
       {
         path: '**',

@@ -1,5 +1,5 @@
 import { Comments } from "./comment.model"
-import { User } from "./user.model"
+import { User, UserBasic } from "./user.model"
 
 export interface Tickets {
   id: number
@@ -22,5 +22,16 @@ export interface TicketCreateRequest{
   content: string,
   status: string,
   categories: string[],
+  priority: string
+}
+
+export interface TicketUpdateRequest {
+  id: number
+  title: string
+  ownerUser: UserBasic
+  includedUsers: UserBasic[]
+  content: string
+  status: string
+  categories: string[]
   priority: string
 }

@@ -3,9 +3,8 @@ import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
 import { MatDialog } from '@angular/material/dialog';
 import { User, UserBasic } from 'src/app/core/models/user.model';
 import { UserService } from 'src/app/core/services/user.service';
-import { DialogComponent } from './dialog/dialog.component';
-import { TicketCategories } from '../shared/categories.enum';
-import { TicketPriorities } from '../shared/priorities.enum';
+import { DialogComponent } from '../shared/dialog/dialog.component';
+import { TicketCategoriesEnum, TicketPrioritiesEnum } from '../shared/ticket.enum';
 import { TicketService } from 'src/app/core/services/ticket.service';
 import { TicketCreateRequest } from 'src/app/core/models/ticket.model';
 
@@ -30,11 +29,11 @@ export class CreateComponent implements OnInit {
     private readonly ticketService: TicketService,
     private matDialog: MatDialog
   ) {
-    this.categoryList = Object.keys(TicketCategories).filter((item) => {
+    this.categoryList = Object.keys(TicketCategoriesEnum).filter((item) => {
       return isNaN(Number(item))
     })
 
-    this.priorityList = Object.keys(TicketPriorities).filter((item) => {
+    this.priorityList = Object.keys(TicketPrioritiesEnum).filter((item) => {
       return isNaN(Number(item))
     })
 
@@ -67,23 +66,25 @@ export class CreateComponent implements OnInit {
   }
 
   openDialog() {
-    let selectedUsers: User[] = []
     const dialogRef = this.matDialog.open(DialogComponent, {
-      data: this.userList
+      data: { allUsers: this.userList }
     })
-    dialogRef.afterClosed().subscribe(result => {
-      selectedUsers = result
+    dialogRef.afterClosed().subscribe((result: UserBasic[]) => {
       let includedUsers = this.fb.array([])
-      selectedUsers.forEach((user) => {
-        if (user !== null) {
-          let control = this.convertToFormControl(user)
-          includedUsers.push(control)
-        }
-      })
-      this.createForm.addControl("includedUsers", includedUsers);
-      this.createForm.setControl(
-        'ownerEmail', new FormControl(this.owner.email, Validators.required)
-      )
+      if (
+        result.length > 0
+      ) {
+        result.forEach((user) => {
+          if (user !== null) {
+            let control = this.convertToFormControl(user)
+            includedUsers.push(control)
+          }
+        })
+        this.createForm.addControl("includedUsers", includedUsers);
+        this.createForm.setControl(
+          'ownerEmail', new FormControl(this.owner.email, Validators.required)
+        )
+      }
     })
   }
 

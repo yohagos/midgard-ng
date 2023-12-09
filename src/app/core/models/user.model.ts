@@ -4,9 +4,10 @@ export interface User {
   lastname: string
   email: string
   password: string
-  createdAt: any
+  createdAt?: any
   accessToken: string
   refreshToken: string
+  role?: string
 }
 
 export interface UserBasic {
@@ -14,5 +15,5 @@ export interface UserBasic {
   firstname: string
   lastname: string
   email: string
-  role: string
+  role?: string
 }

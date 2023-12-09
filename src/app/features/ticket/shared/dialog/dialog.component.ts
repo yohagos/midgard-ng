@@ -1,6 +1,6 @@
 import { Component, Inject } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-import { User } from 'src/app/core/models/user.model';
+import { User, UserBasic } from 'src/app/core/models/user.model';
 
 @Component({
   selector: 'app-dialog',
@@ -8,11 +8,11 @@ import { User } from 'src/app/core/models/user.model';
   styleUrl: './dialog.component.scss'
 })
 export class DialogComponent {
-  selectedUsers!: User[]
+  selectedUsers!: UserBasic[]
 
   constructor(
     public dialogRef: MatDialogRef<DialogComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: User[]
+    @Inject(MAT_DIALOG_DATA) public data: {allUsers: UserBasic[], includedUsers: UserBasic[]}
   ) { }
 
   submit() {
@@ -22,6 +22,11 @@ export class DialogComponent {
   cancel() {
     this.selectedUsers = []
     this.dialogRef.close()
+  }
+
+  checkUserIsPresentInIncludedUsers(user: UserBasic): boolean {
+    let check = this.data.includedUsers.find(item => item.email === user.email)
+    return check !== undefined ? true : false
   }
 
 }
