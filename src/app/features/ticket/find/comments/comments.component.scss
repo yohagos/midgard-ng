@@ -1,11 +1,44 @@
 .comments {
   width: 50em;
-  height: 40em;
+  height: 35em;
 }
 
 .comment {
   padding: 2em;
   margin: 1.5em;
-  border-radius: 1px;
+  border-radius: 15px;
+  box-shadow: inset;
   border: 1px solid green;
+}
+
+.user {
+  font-style: italic;
+  font-size: smaller;
+}
+
+.timstamp {
+  color: lightslategrey;
+  font-size: smaller;
+}
+
+.title {
+  font-weight: bold;
+}
+
+.ngxEditor.submit {
+  position: fixed;
+  float: right;
+  height: 100%;
+}
+
+@media (min-width: 900px){
+  .comments {
+    width: 30em;
+    height: 20em;
+  }
+
+  .comment {
+    padding: 0.7em;
+    margin: 0.7em;
+  }
 }

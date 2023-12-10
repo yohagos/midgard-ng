@@ -16,13 +16,13 @@ import { LoginComponent } from "./features/login/login.component";
 import { NavigationComponent } from "./shared/navigation/navigation.component";
 import { ProfileComponent } from "./features/profile/profile.component";
 import { SignupComponent } from "./features/signup/signup.component";
-import { TicketComponent } from "./features/ticket/ticket.component";
 
 import { JwtService } from './core/services/jwt.service';
 import { UserService } from './core/services/user.service';
 import { ApiInterceptor } from './core/interceptor/api.interceptor';
 import { ErrorInterceptor } from './core/interceptor/error.interceptor';
 import { TokenInterceptor } from './core/interceptor/token.interceptor';
+
 
 export function initAuth(
   jwtService: JwtService,
@@ -48,7 +48,6 @@ export function initAuth(
     FormsModule,
     HttpClientModule,
     ReactiveFormsModule,
-
     MaterialsModule,
     TicketModule
   ],

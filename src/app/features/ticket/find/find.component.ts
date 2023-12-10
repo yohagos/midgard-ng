@@ -88,7 +88,7 @@ export class FindComponent  {
     this.commentService.getCommentsForTicket(ticket.id).subscribe(
       (res: Comments[]) => {
         dialogRef = this.matDialog.open(CommentsComponent, {
-          data: { allComments: res, title: ticket.title }
+          data: { allComments: res, ticket: ticket, title: ticket.title }
         })
       }
     )
