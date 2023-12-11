@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Subject } from "rxjs";
-import { CommentAddRequest, Comments } from '../models/comment.model';
+import { CommentAddRequest, CommentEditRequest, Comments } from '../models/comment.model';
 
 @Injectable({
   providedIn: 'root'
@@ -22,5 +22,13 @@ export class CommentService {
 
   submitComment(comment: CommentAddRequest) {
     return this.http.post('comment/add', comment)
+  }
+
+  editComment(body: CommentEditRequest) {
+    return this.http.put('comment/edit', body)
+  }
+
+  deleteComment(id: number) {
+    return this.http.delete(`comment/delete/${id}`)
   }
 }

@@ -16,6 +16,11 @@
   font-size: smaller;
 }
 
+.commentIcon {
+  transform: scale(0.8);
+  float: right;
+}
+
 .timstamp {
   color: lightslategrey;
   font-size: smaller;
@@ -29,6 +34,13 @@
   position: fixed;
   float: right;
   height: 100%;
+}
+
+.ngxEditorEdit {
+  position: absolute;
+  width: 85%;
+  bottom: 0;
+  display: block;
 }
 
 @media (min-width: 900px){
