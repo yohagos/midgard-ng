@@ -7,3 +7,9 @@ export interface Comments {
   ticket: Tickets
   timestamp: Date
 }
+
+export interface CommentAddRequest {
+  content: string
+  ticket_id: number
+  userEmail: string
+}

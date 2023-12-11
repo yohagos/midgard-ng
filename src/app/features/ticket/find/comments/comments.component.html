@@ -1,0 +1,23 @@
+<h1 matDialogTitle>Comments for Ticket: <span class="title">{{title}}</span></h1>
+<mat-dialog-content>
+  <div class="comments" *ngIf="comments">
+    <div  class="comment" *ngFor="let comment of comments">
+      <span>
+        <span class="user"> {{ comment.user.firstname }} {{ comment.user.lastname }}</span>
+        <div [innerHTML]="comment.content"></div>
+        <span class="timestamp"> {{comment.timestamp}} </span>
+      </span>
+    </div>
+  </div>
+</mat-dialog-content>
+<div *ngIf="showEditor" class="ngsEditor">
+  <ngx-editor-menu [editor]="editor"></ngx-editor-menu>
+  <ngx-editor [editor]="editor" [(ngModel)]="editorContent"></ngx-editor>
+</div>
+<mat-dialog-actions align="end">
+  <button mat-icon-button *ngIf="!showEditor" (click)="addComment()">
+    <mat-icon>add</mat-icon>
+  </button>
+  <button mat-raised-button *ngIf="showEditor" color="primary" (click)="submit()">Submit</button>
+  <button mat-raised-button matDialogClose>Cancel</button>
+</mat-dialog-actions>

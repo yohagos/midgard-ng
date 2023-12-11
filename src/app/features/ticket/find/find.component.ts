@@ -1,8 +1,12 @@
 import { Component, Input } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 
 import { Tickets } from 'src/app/core/models/ticket.model';
 import { TicketService } from 'src/app/core/services/ticket.service';
+import { CommentsComponent } from './comments/comments.component';
+import { CommentService } from 'src/app/core/services/comment.service';
+import { Comments } from 'src/app/core/models/comment.model';
 
 
 @Component({
@@ -17,7 +21,9 @@ export class FindComponent  {
 
   constructor(
     private router: Router,
-    private ticketService: TicketService
+    private ticketService: TicketService,
+    private matDialog: MatDialog,
+    private commentService: CommentService
   ) {
     this.ticketService.getAllTickets().subscribe(
       result => {
@@ -25,6 +31,7 @@ export class FindComponent  {
         this.loading = false
       }
     )
+
    }
 
   changeColor(ticket: Tickets) {
@@ -76,4 +83,14 @@ export class FindComponent  {
     this.router.navigate(['ticket/edit', ticket.id])
   }
 
+  showCommentsDialog(ticket: Tickets) {
+    let dialogRef
+    this.commentService.getCommentsForTicket(ticket.id).subscribe(
+      (res: Comments[]) => {
+        dialogRef = this.matDialog.open(CommentsComponent, {
+          data: { allComments: res, ticket: ticket, title: ticket.title }
+        })
+      }
+    )
+  }
 }

@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from "@angular/common";
 import { RouterModule } from "@angular/router";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
+import { NgxEditorModule } from "ngx-editor";
 
 import { TicketComponent } from "./ticket.component";
 import { CreateComponent } from "./create/create.component";
@@ -9,6 +10,7 @@ import { EditComponent } from "./edit/edit.component";
 import { FindComponent } from "./find/find.component";
 import { DialogComponent } from "./shared/dialog/dialog.component";
 import { EditDialogComponent } from "./shared/edit-dialog/edit-dialog.component";
+import { CommentsComponent } from "./find/comments/comments.component";
 
 import { MaterialsModule } from "../../materials.module";
 
@@ -20,7 +22,8 @@ import { MaterialsModule } from "../../materials.module";
     FindComponent,
 
     DialogComponent,
-    EditDialogComponent
+    EditDialogComponent,
+    CommentsComponent
   ],
   exports: [
     TicketComponent,
@@ -29,14 +32,16 @@ import { MaterialsModule } from "../../materials.module";
     FindComponent,
 
     DialogComponent,
-    EditDialogComponent
+    EditDialogComponent,
+    CommentsComponent
   ],
   imports: [
     CommonModule,
     FormsModule,
     MaterialsModule,
     ReactiveFormsModule,
-    RouterModule
+    RouterModule,
+    NgxEditorModule
   ]
 })
 export class TicketModule { }

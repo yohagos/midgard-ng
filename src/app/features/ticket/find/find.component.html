@@ -16,6 +16,9 @@
           <button mat-icon-button class="icons" (click)="editTicket(item)">
             <mat-icon>edit</mat-icon>
           </button>
+          <button mat-raised-button (click)="showCommentsDialog(item)">
+            Comments
+          </button>
         </mat-list-item>
       </mat-list>
     </mat-expansion-panel>
