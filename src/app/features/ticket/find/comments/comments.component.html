@@ -3,14 +3,32 @@
   <div class="comments" *ngIf="comments">
     <div  class="comment" *ngFor="let comment of comments">
       <span>
-        <span class="user"> {{ comment.user.firstname }} {{ comment.user.lastname }}</span>
+        <span class="user"> {{ comment?.user?.firstname }} {{ comment?.user?.lastname }}
+          <button class="commentIcon"
+            *ngIf="comment?.user?.email == currentUser?.email"
+            (click)="deleteComment(comment.id)"
+            mat-icon-button>
+            <mat-icon>delete</mat-icon>
+          </button>
+          <button class="commentIcon"
+            *ngIf="comment?.user?.email == currentUser?.email"
+            mat-icon-button
+            (click)="editComment(comment)">
+            <mat-icon>edit</mat-icon>
+          </button>
+          </span>
         <div [innerHTML]="comment.content"></div>
-        <span class="timestamp"> {{comment.timestamp}} </span>
+        <span class="timestamp"> {{comment?.timestamp}} </span>
       </span>
     </div>
   </div>
+  <div *ngIf="editMode" class="ngxEditorEdit">
+    <ngx-editor-menu [editor]="editor"></ngx-editor-menu>
+    <ngx-editor [editor]="editor" [(ngModel)]="editorContent"></ngx-editor>
+    <button mat-raised-button *ngIf="editMode" color="primary" (click)="editCommentCall()">Edit Comment</button>
+  </div>
 </mat-dialog-content>
-<div *ngIf="showEditor" class="ngsEditor">
+<div *ngIf="showEditor" class="ngxEditor">
   <ngx-editor-menu [editor]="editor"></ngx-editor-menu>
   <ngx-editor [editor]="editor" [(ngModel)]="editorContent"></ngx-editor>
 </div>
