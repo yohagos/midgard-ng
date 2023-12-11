@@ -1,0 +1,10 @@
+<div class="uploadComponent">
+  <input type="file" class="form-control" id="formFile" (change)="onChange($event)">
+
+  <button mat-raised-button *ngIf="file" color="warn" (click)="onClick()">
+    Upload
+  </button>
+</div>
+
+
+
