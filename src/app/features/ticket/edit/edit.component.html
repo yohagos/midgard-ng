@@ -60,11 +60,13 @@
           </mat-chip>
         </mat-chip-listbox>
       </div>
-      <div *ngIf="editMode">
+      <mat-divider></mat-divider>
+      <div>
         <mat-label>Upload file</mat-label>
-        <app-upload-file [ticket_id]="receivedData.id"></app-upload-file>
+        <app-upload-file [ticket_id]="receivedData.id" [editMode]="editMode"></app-upload-file>
       </div>
 
+      <mat-divider></mat-divider>
       <div class="formButtons">
         <button mat-raised-button color="primary" (click)="updateTicket()" [disabled]="editForm.disabled || !editForm.dirty">Save</button>
         <button mat-raised-button color="grey" (click)="cancel()" [disabled]="editForm.disabled">Cancel</button>

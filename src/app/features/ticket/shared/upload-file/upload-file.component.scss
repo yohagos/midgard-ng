@@ -1,8 +1,8 @@
-.file-input {
-  _display: none;
-}
-
 .uploadComponent {
   display: flex;
   flex-direction: row;
+}
+
+mat-divider {
+  padding: 1em;
 }

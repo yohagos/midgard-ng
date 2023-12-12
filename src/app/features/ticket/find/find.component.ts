@@ -31,7 +31,6 @@ export class FindComponent  {
         this.loading = false
       }
     )
-
    }
 
   changeColor(ticket: Tickets) {

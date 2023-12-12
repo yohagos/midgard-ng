@@ -1,62 +1,74 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { FilesService } from 'src/app/core/services/files.service';
 import { throwError } from "rxjs";
+import { saveAs } from "file-saver";
+import { Files } from 'src/app/core/models/file.model';
 
 @Component({
   selector: 'app-upload-file',
   templateUrl: './upload-file.component.html',
   styleUrl: './upload-file.component.scss'
 })
-export class UploadFileComponent {
-  status: "initial" | "uploading" | "success" | "fail" = "initial";
+export class UploadFileComponent implements OnInit {
   file: File | null = null
-
+  selectedFiles!: File[]
   @Input() ticket_id!: number
+
+  files: Files[] = []
+  @Input() editMode!: boolean
 
   constructor(
     private readonly filesService: FilesService
-  ) {}
+  ) {
+  }
+
+  ngOnInit() {
+      this.loadFiles()
+  }
 
   onChange(event: any) {
-    const file: File = event.target.files[0]
-    console.log(event.target.files[0]);
+    this.selectedFiles = event.target.files
+  }
 
-
-    if (file) {
-      this.status = "initial"
-      this.file = file
+  remove(f: Files) {
+    const index = this.files.indexOf(f)
+    if (index >= 0) {
+      this.files.splice(index, 1);
     }
   }
 
   onUpload() {
-    console.log(this.file)
-    console.log(this.ticket_id)
-    if (this.file && this.ticket_id) {
+    if (this.selectedFiles && this.ticket_id) {
       	const formData = new FormData()
-        formData.append('file', this.file)
-
-        const upload$ = this.filesService.uploadSingleFile(formData, this.ticket_id)
-
-        this.status = 'uploading'
-
-        upload$.subscribe({
-          next: () => {
-            this.status = 'success'
-          },
-          error: (error: any) => {
-            this.status = 'fail'
-            return throwError(() => error)
-          }
+        for (let i = 0; i < this.selectedFiles.length; i++) {
+          formData.append('files', this.selectedFiles[i])
+        }
+        const upload$ = this.filesService.uploadMultipleFiles(formData, this.ticket_id)
+          upload$.subscribe({
+            next: () => {
+              this.loadFiles()
+            },
+            error: (error: any) => {
+              return throwError(() => error)
+            }
         })
     }
   }
 
-  onClick() {
-    this.filesService.getAllFiles().subscribe(
-      res => {
-        console.log(res)
+  loadFiles() {
+    this.filesService.getFilesForTicket(`${this.ticket_id}`).subscribe(
+      (res) => {
+        this.files = res as Files[]
       }
     )
+  }
+
+  downloadFile(file: Files) {
+    console.log(file)
+    this.filesService.downloadFileById(file.id)
+    .subscribe(blob => {
+      saveAs(blob, file.filename)
+    })
   }
 
 }

@@ -13,6 +13,7 @@ import { LoadingService } from 'src/app/core/services/loading.service';
 import { Observable } from 'rxjs';
 import { UtilsService } from 'src/app/core/services/util.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { FilesService } from 'src/app/core/services/files.service';
 
 
 @Component({
@@ -39,6 +40,7 @@ export class EditComponent {
     private loadingService: LoadingService,
     private readonly userService: UserService,
     private readonly ticketService: TicketService,
+    private readonly filesService: FilesService,
     public matDialog: MatDialog,
     public snackBar: MatSnackBar
   ) {
@@ -102,7 +104,6 @@ export class EditComponent {
     const index = this.receivedData.includedUsers.indexOf(user)
     if (index >= 0) {
       this.receivedData.includedUsers.splice(index, 1)
-
     }
   }
 
