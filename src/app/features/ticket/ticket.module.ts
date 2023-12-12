@@ -11,6 +11,7 @@ import { FindComponent } from "./find/find.component";
 import { DialogComponent } from "./shared/dialog/dialog.component";
 import { EditDialogComponent } from "./shared/edit-dialog/edit-dialog.component";
 import { CommentsComponent } from "./find/comments/comments.component";
+import { UploadFileComponent } from "./shared/upload-file/upload-file.component";
 
 import { MaterialsModule } from "../../materials.module";
 
@@ -23,7 +24,8 @@ import { MaterialsModule } from "../../materials.module";
 
     DialogComponent,
     EditDialogComponent,
-    CommentsComponent
+    CommentsComponent,
+    UploadFileComponent
   ],
   exports: [
     TicketComponent,
@@ -33,7 +35,8 @@ import { MaterialsModule } from "../../materials.module";
 
     DialogComponent,
     EditDialogComponent,
-    CommentsComponent
+    CommentsComponent,
+    UploadFileComponent
   ],
   imports: [
     CommonModule,

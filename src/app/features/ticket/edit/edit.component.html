@@ -40,8 +40,8 @@
       </mat-form-field>
       <mat-form-field appearance="fill">
         <mat-label>Owner</mat-label>
-        <input matInput formControlName="owner">
-        <button mat-icon-button *ngIf="editMode" (click)="changeOwnerDialog()">
+        <input class="ownerInput" matInput formControlName="owner">
+        <button class="editOwner" mat-icon-button *ngIf="editMode" (click)="changeOwnerDialog()">
           <mat-icon matSuffix>mode_edit</mat-icon>
         </button>
       </mat-form-field>
@@ -60,11 +60,13 @@
           </mat-chip>
         </mat-chip-listbox>
       </div>
-
-      <div *ngIf="">
-        <mat-spinner>Loading...</mat-spinner>
+      <mat-divider></mat-divider>
+      <div>
+        <mat-label>Upload file</mat-label>
+        <app-upload-file [ticket_id]="receivedData.id" [editMode]="editMode"></app-upload-file>
       </div>
 
+      <mat-divider></mat-divider>
       <div class="formButtons">
         <button mat-raised-button color="primary" (click)="updateTicket()" [disabled]="editForm.disabled || !editForm.dirty">Save</button>
         <button mat-raised-button color="grey" (click)="cancel()" [disabled]="editForm.disabled">Cancel</button>

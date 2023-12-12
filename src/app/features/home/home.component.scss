@@ -1,8 +1,7 @@
 .homeCard {
   margin: 2.5em;
-  display: grid;
-  justify-content: center;
-  align-self: center;
+  display: flex;
+  flex-direction: column;
 }
 
 .matCardHome {
