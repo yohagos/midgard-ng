@@ -1,11 +1,11 @@
 <mat-accordion multi>
-    <mat-expansion-panel *ngFor="let item of ticketsList" [ngStyle]="changeColor(item)">
+    <mat-expansion-panel class="panels" *ngFor="let item of ticketsList" [ngStyle]="changeColor(item)">
       <mat-expansion-panel-header>
         <mat-panel-title [ngStyle]="changeTitleByPriority(item)">
           {{item?.title}}
         </mat-panel-title>
         <mat-panel-description>
-          {{item?.categories}}
+          {{formatCategories(item?.categories)}}
         </mat-panel-description>
       </mat-expansion-panel-header>
       <mat-list role="list">
