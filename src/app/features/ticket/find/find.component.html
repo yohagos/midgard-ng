@@ -9,17 +9,26 @@
         </mat-panel-description>
       </mat-expansion-panel-header>
       <mat-list role="list">
-        <mat-list-item role="listitem">Owner: {{item?.owner?.firstname}} {{item?.owner?.lastname}}</mat-list-item>
-        <mat-list-item role="listitem">Status: {{item?.status}}</mat-list-item>
-        <mat-list-item *ngIf="item?.priority" role="listitem">Priority: {{item?.priority}}</mat-list-item>
         <mat-list-item>
-          <button mat-icon-button class="icons" (click)="editTicket(item)">
-            <mat-icon>edit</mat-icon>
-          </button>
-          <button mat-raised-button (click)="showCommentsDialog(item)">
-            Comments
-          </button>
+          <span matListItemTitle>Owner</span>
+          <span matListItemLine>{{item?.owner?.firstname}} {{item?.owner?.lastname}}</span>
         </mat-list-item>
+        <mat-list-item>
+          <span matListItemTitle>Status</span>
+          <span matListItemLine>{{item?.status}}</span>
+        </mat-list-item>
+        <mat-list-item *ngIf="item?.priority">
+          <span matListItemTitle>Priority</span>
+          <span matListItemLine>{{item?.priority}}</span>
+        </mat-list-item>
+        <div class="buttons">
+          <button mat-icon-button color="primary" (click)="editTicket(item)">
+            <mat-icon class="icons">edit</mat-icon>
+          </button>
+          <button mat-icon-button color="warn" (click)="showCommentsDialog(item)">
+            <mat-icon class="icons">comment</mat-icon>
+          </button>
+        </div>
       </mat-list>
     </mat-expansion-panel>
 </mat-accordion>
