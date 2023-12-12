@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 
@@ -37,16 +37,16 @@ export class FindComponent  {
     let panel = {}
     switch(ticket.status) {
       case 'OPEN':
-        panel = {'border-bottom': '1.5px solid #228B22'}
+        panel = {'border-bottom': '3px solid #228B22'}
         break;
       case 'IMPLEMENTING':
-        panel = {'border-bottom': '1.5px solid #1E90FF'}
+        panel = {'border-bottom': '3px solid #1E90FF'}
         break;
       case 'REVIEWING':
-        panel = {'border-bottom': '1.5px solid #8B008B'}
+        panel = {'border-bottom': '3px solid #8B008B'}
         break;
       case 'CLOSED':
-        panel = {'border-bottom': '1.5px solid #696969'}
+        panel = {'border-bottom': '3px solid #696969'}
         break;
       default:
         break;
@@ -91,5 +91,13 @@ export class FindComponent  {
         })
       }
     )
+  }
+
+  formatCategories(categories: string[] | undefined | null) {
+    if (categories != null && categories.length > 0) {
+      return categories.join(", ")
+    } else {
+      return categories
+    }
   }
 }

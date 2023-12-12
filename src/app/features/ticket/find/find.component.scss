@@ -2,14 +2,18 @@ mat-panel-title {
   font-weight: 500;
 }
 
-.autoCompleteForm {
-  width: 100%;
+.panels {
+  padding: 0.5em;
 }
 
-/* button mat-icon {
-  display: flex;
-  justify-content: flex-end;
-} */
+.buttons {
+    display: flex;
+    justify-content: center;
+}
+
+button {
+  padding: 1em;
+}
 
 .icons {
   float: right;
