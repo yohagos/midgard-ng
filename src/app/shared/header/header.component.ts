@@ -1,5 +1,5 @@
 import { DOCUMENT } from '@angular/common';
-import { Component, EventEmitter, Output, Renderer2, Inject } from '@angular/core';
+import { Component, EventEmitter, Input, Output, Renderer2, Inject } from '@angular/core';
 import { Router } from '@angular/router';
 
 @Component({
@@ -9,6 +9,7 @@ import { Router } from '@angular/router';
 })
 export class HeaderComponent {
   title = 'Midgard'
+  @Input() active!: boolean
 
   @Output() toggleMenu = new EventEmitter()
 
@@ -30,5 +31,10 @@ export class HeaderComponent {
       this.renderer.removeClass(this.document.body, 'darkTheme')
       this.renderer.addClass(this.document.body, 'lightTheme');
     }
+  }
+
+  toggleNavigation() {
+    this.active = !this.active
+    this.toggleMenu.emit('toggle')
   }
 }

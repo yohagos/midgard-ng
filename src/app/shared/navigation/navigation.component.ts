@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { ActivatedRoute, NavigationEnd, NavigationStart, Router } from '@angular/router';
 import { JwtService } from 'src/app/core/services/jwt.service';
 
@@ -18,6 +18,8 @@ export class NavigationComponent implements OnInit {
     {name: 'Logout', path: '/logout', loggedIn: true},
   ]
 
+  open = true
+
   constructor(
     private readonly jwtService: JwtService,
     private router: Router
@@ -35,5 +37,11 @@ export class NavigationComponent implements OnInit {
         }
       }
     )
+  }
+
+  toggleMenu(event: any) {
+    if(event) {
+      this.open = !this.open
+    }
   }
 }
