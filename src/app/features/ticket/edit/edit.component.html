@@ -45,6 +45,20 @@
           <mat-icon matSuffix>mode_edit</mat-icon>
         </button>
       </mat-form-field>
+      <div class="datePicker">
+        <mat-label>Due Date</mat-label>
+        <div *ngIf="!editMode">
+          <input matInput value="{{ oldDueDate }}" disabled>
+        </div>
+        <div *ngIf="editMode">
+          <mat-form-field>
+            <input matInput [matDatepicker]="picker" value="{{oldDueDate}}" [formControl]="deadline">
+            <mat-hint>DD/MM/YYYY</mat-hint>
+            <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+            <mat-datepicker #picker></mat-datepicker>
+          </mat-form-field>
+        </div>
+      </div>
       <div>
         <mat-label>Included Users
           <button *ngIf="editMode" mat-icon-button (click)="openDialog()">
@@ -65,12 +79,12 @@
         <mat-label>Upload file</mat-label>
         <app-upload-file [ticket_id]="receivedData.id" [editMode]="editMode"></app-upload-file>
       </div>
-
-      <mat-divider></mat-divider>
+    </mat-card-content>
+    <mat-card-actions>
       <div class="formButtons">
-        <button mat-raised-button color="primary" (click)="updateTicket()" [disabled]="editForm.disabled || !editForm.dirty">Save</button>
+        <button mat-raised-button color="primary" (click)="updateTicket()" [disabled]="editForm.disabled && !editForm.dirty">Save</button>
         <button mat-raised-button color="grey" (click)="cancel()" [disabled]="editForm.disabled">Cancel</button>
       </div>
-    </mat-card-content>
+    </mat-card-actions>
   </mat-card>
 </div>

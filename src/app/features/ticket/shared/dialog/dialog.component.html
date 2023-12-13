@@ -1,10 +1,10 @@
 <mat-selection-list [(ngModel)]="selectedUsers">
   @for (item of data.allUsers; track $index) {
-    @if (checkUserIsPresentInIncludedUsers(item)) {
+    <!-- @if (checkUserIsPresentInIncludedUsers(item)) {
       <mat-list-option [value]="item" selected="true">{{item.firstname}} {{item.lastname}}</mat-list-option>
-    } @else {
+    } @else { -->
       <mat-list-option [value]="item">{{item.firstname}} {{item.lastname}}</mat-list-option>
-    }
+    
   }
 </mat-selection-list>
 

@@ -21,6 +21,10 @@
           <span matListItemTitle>Priority</span>
           <span matListItemLine>{{item?.priority}}</span>
         </mat-list-item>
+        <mat-list-item *ngIf="item?.deadline">
+          <span matListItemTitle>Due Date</span>
+          <span matListItemLine>{{item?.deadline | date: "dd.MM.yyyy"}}</span>
+        </mat-list-item>
         <div class="buttons">
           <button mat-icon-button color="primary" (click)="editTicket(item)">
             <mat-icon class="icons">edit</mat-icon>
