@@ -1,0 +1,13 @@
+<app-header (toggleMenu)="toggleMenu($event)"></app-header>
+<mat-drawer-container class="navigation-container">
+  <mat-drawer mode="side" style="width: 20%;" class="navigation-items" [(opened)]="open">
+    <div *ngFor="let item of navigations">
+      <button mat-button *ngIf="isLoggedIn == item.loggedIn" routerLink="{{item.path}}" style="width: 100%;">
+        {{item.name}}
+      </button>
+    </div>
+  </mat-drawer>
+  <mat-drawer-content>
+    <router-outlet></router-outlet>
+  </mat-drawer-content>
+</mat-drawer-container>

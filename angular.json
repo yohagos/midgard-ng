@@ -63,12 +63,16 @@
         },
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
+          "options": {
+            "buildTarget": "midgard-ng:build",
+            "proxyConfig": "proxy.conf.json"
+          },
           "configurations": {
             "production": {
-              "browserTarget": "midgard-ng:build:production"
+              "buildTarget": "midgard-ng:build:production"
             },
             "development": {
-              "browserTarget": "midgard-ng:build:development"
+              "buildTarget": "midgard-ng:build:development"
             }
           },
           "defaultConfiguration": "development"
@@ -76,7 +80,7 @@
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "midgard-ng:build"
+            "buildTarget": "midgard-ng:build"
           }
         },
         "test": {

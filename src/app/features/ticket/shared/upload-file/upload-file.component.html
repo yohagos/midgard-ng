@@ -1,0 +1,20 @@
+<div class="uploadComponent">
+  <input *ngIf="editMode" type="file" class="form-control" id="formFile" (change)="onChange($event)" multiple>
+
+  <button mat-raised-button *ngIf="selectedFiles" color="warn" (click)="onUpload()">
+    Upload
+  </button>
+</div>
+<mat-divider></mat-divider>
+<div class="uploadComponent">
+  <mat-chip-listbox>
+    <mat-chip (removed)="remove(f)" *ngFor="let f of files" (click)="downloadFile(f)">
+      {{f.filename}}
+      <button *ngIf="editMode" matChipRemove [attr.aria-label]="'remove ' + f">
+        <mat-icon>cancel</mat-icon>
+      </button>
+    </mat-chip>
+  </mat-chip-listbox>
+</div>
+
+
