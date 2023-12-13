@@ -14,6 +14,7 @@ import { Observable } from 'rxjs';
 import { UtilsService } from 'src/app/core/services/util.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { FilesService } from 'src/app/core/services/files.service';
+import { formatDate } from '@angular/common';
 
 
 @Component({
@@ -27,6 +28,10 @@ export class EditComponent {
   userList!: UserBasic[]
   editForm!: FormGroup
   editMode = false
+
+  dateFormat = 'dd/MM/yyyy'
+  oldDueDate!: Date
+  deadline = new FormControl('', Validators.required)
 
   loading$: Observable<boolean>
 
@@ -48,9 +53,11 @@ export class EditComponent {
     if (ticketID !== null) {
       this.ticketService.getTicketById(ticketID).subscribe(
         result => {
+          console.log(result)
           this.receivedData = result as Tickets
           this.receivedData.owner = {...this.receivedData.owner}
           this.includedUsers = this.receivedData.includedUsers
+          this.oldDueDate = this.receivedData?.deadline
           this.fillForm()
         }
       )
@@ -60,6 +67,9 @@ export class EditComponent {
         }
       )
     }
+
+    this.deadline.valueChanges.subscribe(() => this.editForm.markAsDirty)
+
     this.loading$ = this.loadingService.loading$()
   }
 
@@ -79,13 +89,12 @@ export class EditComponent {
 
   fillForm() {
     this.editForm = this.formBuilder.group({
-      title: new FormControl({value: this.receivedData.title, disabled: true}, Validators.required),
-      content: new FormControl({value: this.receivedData.content, disabled: true}),
-      priority: new FormControl({value: this.receivedData.priority, disabled: true}),
-      categories: new FormControl({value: this.receivedData.categories, disabled: true}),
-      status: new FormControl({value: this.receivedData.status, disabled: true}),
-      owner: new FormControl({value:
-        this.receivedData.owner.firstname + ' ' + this.receivedData.owner.lastname , disabled: true}),
+      title: new FormControl({value: this.receivedData?.title, disabled: true}, Validators.required),
+      content: new FormControl({value: this.receivedData?.content, disabled: true}),
+      priority: new FormControl({value: this.receivedData?.priority, disabled: true}),
+      categories: new FormControl({value: this.receivedData?.categories, disabled: true}),
+      status: new FormControl({value: this.receivedData?.status, disabled: true}),
+      owner: new FormControl({value: this.receivedData?.owner?.firstname + ' ' + this.receivedData?.owner?.lastname , disabled: true}),
     })
     this.editForm.markAsUntouched()
   }
@@ -177,6 +186,7 @@ export class EditComponent {
   updateTicket() {
     let includedUsers = this.modifyIncludedUsers()
     let owner = this.modifyOwner()
+    let dueDate: Date | undefined = this.getDueDate()
     const ticket: TicketUpdateRequest = {
       id: this.receivedData.id,
       content: this.editForm.controls['content'].value,
@@ -185,14 +195,30 @@ export class EditComponent {
       title: this.editForm.controls['title'].value,
       status: this.editForm.controls['status'].value,
       ownerUser: owner,
-      includedUsers: includedUsers
+      includedUsers: includedUsers,
+      deadline: dueDate
     }
+
     this.ticketService.updateTicket(ticket).subscribe(
       result => {
         this.snackBar.open('Ticket successfully updated', 'done')
         this.cancel()
       }
     )
+  }
+
+  getDueDate(): Date | undefined {
+    let controlDeadline;
+    this.deadline.valueChanges.subscribe(
+      changes => controlDeadline = changes
+    )
+    if (controlDeadline) {
+      this.editForm.markAsDirty
+      return controlDeadline
+    } /* else {
+      //return this.oldDueDate
+    } */
+    return
   }
 
   modifyOwner() {

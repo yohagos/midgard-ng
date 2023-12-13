@@ -13,6 +13,7 @@ export interface Tickets {
   status: string
   categories: string[]
   priority: string
+  deadline: Date
 }
 
 export interface TicketCreateRequest{
@@ -33,5 +34,6 @@ export interface TicketUpdateRequest {
   content: string
   status: string
   categories: string[]
-  priority: string
+  priority: string,
+  deadline: Date | undefined
 }

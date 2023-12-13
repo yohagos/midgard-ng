@@ -42,7 +42,8 @@ export class CreateComponent implements OnInit {
       title: new FormControl('Clean Code Architecture', Validators.required),
       content: new FormControl('Clean code provides more readability...', Validators.required),
       priority: new FormControl('LOW', Validators.required),
-      categories: new FormControl('', Validators.required)
+      categories: new FormControl('', Validators.required),
+      deadline: new FormControl('', Validators.required)
     })
   }
 
@@ -104,6 +105,7 @@ export class CreateComponent implements OnInit {
   }
 
   createTicket() {
+    console.log(this.createForm.value)
     this.ticketService.addNewTicket(this.createForm.value as TicketCreateRequest).subscribe(res => {
       console.log(res)
     })
