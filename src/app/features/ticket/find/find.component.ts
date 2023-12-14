@@ -7,6 +7,7 @@ import { TicketService } from 'src/app/core/services/ticket.service';
 import { CommentsComponent } from './comments/comments.component';
 import { CommentService } from 'src/app/core/services/comment.service';
 import { Comments } from 'src/app/core/models/comment.model';
+import { FormControl } from '@angular/forms';
 
 
 @Component({
@@ -16,7 +17,7 @@ import { Comments } from 'src/app/core/models/comment.model';
 })
 export class FindComponent  {
   ticketsList!: Tickets[]
-
+  searchText = ''
   loading = true
 
   constructor(
@@ -57,7 +58,7 @@ export class FindComponent  {
   changeTitleByPriority(ticket: Tickets) {
     let title = {}
     switch(ticket.priority) {
-      case 'Low':
+      case 'LOW':
         title = {'color': '#97e376'}
         break;
       case 'SEMI_LOW':
@@ -99,5 +100,9 @@ export class FindComponent  {
     } else {
       return categories
     }
+  }
+
+  clearSearchText() {
+    this.searchText = ''
   }
 }

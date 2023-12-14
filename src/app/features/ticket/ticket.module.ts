@@ -13,6 +13,8 @@ import { EditDialogComponent } from "./shared/edit-dialog/edit-dialog.component"
 import { CommentsComponent } from "./find/comments/comments.component";
 import { UploadFileComponent } from "./shared/upload-file/upload-file.component";
 
+import { FilterPipe } from "../../core/pipe/filter.pipe";
+
 import { MaterialsModule } from "../../materials.module";
 
 @NgModule({
@@ -25,7 +27,9 @@ import { MaterialsModule } from "../../materials.module";
     DialogComponent,
     EditDialogComponent,
     CommentsComponent,
-    UploadFileComponent
+    UploadFileComponent,
+
+    FilterPipe
   ],
   exports: [
     TicketComponent,

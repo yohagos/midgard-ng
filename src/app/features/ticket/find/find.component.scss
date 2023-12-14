@@ -18,3 +18,12 @@ button {
 .icons {
   float: right;
 }
+
+.searchInput {
+  width: 100%;
+}
+
+.searchInput::before {
+  padding: 0;
+  margin: 0;
+}
