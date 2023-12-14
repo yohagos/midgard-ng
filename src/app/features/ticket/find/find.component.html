@@ -1,5 +1,11 @@
-<mat-accordion multi>
-    <mat-expansion-panel class="panels" *ngFor="let item of ticketsList" [ngStyle]="changeColor(item)">
+<mat-form-field class="searchInput" appearance="outline">
+  <input matInput [(ngModel)]="searchText" placeholder="Search for Tickets">
+  <button mat-icon-button matIconSuffix (click)="clearSearchText()" *ngIf="searchText">
+    <mat-icon>cancel</mat-icon>
+  </button>
+</mat-form-field>
+<mat-accordion multi *ngIf="(ticketsList | filter: searchText).length > 0; else noResults">
+    <mat-expansion-panel class="panels" *ngFor="let item of ticketsList | filter: searchText" [ngStyle]="changeColor(item)">
       <mat-expansion-panel-header>
         <mat-panel-title [ngStyle]="changeTitleByPriority(item)">
           {{item?.title}}
@@ -32,3 +38,7 @@
       </mat-list>
     </mat-expansion-panel>
 </mat-accordion>
+
+<ng-template #noResults>
+  <p>No results found for "{{searchText}}"</p>
+</ng-template>

@@ -1,14 +1,22 @@
 .comments {
   width: 50em;
-  height: 35em;
+  height: 40em;
+}
+
+.commentContent  {
+  margin-top: 1rem;
+  margin-bottom: 1rem;
 }
 
 .comment {
   padding: 2em;
   margin: 1.5em;
-  border-radius: 15px;
-  box-shadow: inset;
-  border: 1px solid green;
+  font-weight: 400;
+  vertical-align: middle;
+  border-radius: 4px;
+  box-shadow: 2px 2px 2px 2px grey;
+  border: 1px solid transparent;
+  text-decoration: none;
 }
 
 .user {
@@ -45,12 +53,17 @@
 
 @media (min-width: 900px){
   .comments {
-    width: 30em;
-    height: 20em;
+    width: 35em;
+    height: 30em;
   }
 
   .comment {
     padding: 0.7em;
     margin: 0.7em;
+  }
+
+  .commentContent  {
+    margin-top: 1rem;
+    margin-bottom: 1rem;
   }
 }
